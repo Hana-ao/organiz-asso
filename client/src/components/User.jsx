@@ -1,12 +1,15 @@
 
 
-function User({ name, lastName, username, isAdmin }) {
+function User({ _id, name, lastName, login, email, isAdmin }) {
+    
+
     return (
         <div>
-            <p>Informations sur l'utilisateur :</p>
+            <p>Informations sur l'utilisateur n° {_id}</p>
             <p>Prénom : {name}</p>
             <p>Nom : {lastName}</p>
-            <p>Username : {username}</p>
+            <p>Identifiant : {login}</p>
+            <p>E-mail : {email}</p>
             {isAdmin && <p>Statut : Administrateur</p>}
         </div>
     );

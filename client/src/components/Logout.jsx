@@ -1,15 +1,28 @@
 import '../styles/Logout.css';
-import { Link } from 'react-router-dom';
 
-function Logout({ logout }) {
+
+
+
+function Logout({history}) {
+
+   
+
+    function handleLogout(event){
+        event.preventDefault();
+        history.push({
+            pathname: "/mainpage"
+        })
+        window.location.reload(); //permet de recharger la page
+    }
+
     return (
-        <Link to="/mainpage">
+        
             <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="logout-button">
                 Se déconnecter
             </button>
-        </Link>
+       
     );
 }
 

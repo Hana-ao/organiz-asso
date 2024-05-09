@@ -30,9 +30,10 @@ function init(db) {
     router.post("/user/register", async (req, res) => {
         console.log('bien rentré dans post');
         try {
-            const { name, lastName, username, email, password } = req.body;
+            const { name, lastName, login, email, password } = req.body;
             console.log('tout est bien recupéré');
-            if (!name || !lastName || !username || !email || !password) {
+
+            if (!name || !lastName || !login || !email || !password) {
                 return res.status(400).json({
                     status: 400,
                     message: "Veuillez fournir tous les champs nécessaires pour l'inscription"
@@ -41,13 +42,13 @@ function init(db) {
     
 
             //l'utilisateur n'a jamais été inscrit
-            const newUser = await users.create(name, lastName, username, email, password);
+            const userId = await users.create(name, lastName, login, email, password);
     
             // Réponse de succès
             return res.status(201).json({
                 status: 201,
                 message: "Inscription réussie !",
-                user: newUser // Renvoi des données de l'utilisateur nouvellement créé si nécessaire
+                user: userId // Renvoi de l'ID
             });
             
             
@@ -64,8 +65,8 @@ function init(db) {
 
         console.log("fonction Login bien appelée")
         try {
-            const { username, password } = req.body;
-            if (!username || !password) {
+            const { login, password } = req.body;
+            if (!login || !password) {
                 return res.status(400).json({
                     status: 400,
                     message: "Requête invalide : nom d'utilisateur et mot de passe nécessaires"
@@ -73,7 +74,7 @@ function init(db) {
             }
     
             // Vérifier si l'utilisateur existe déjà
-            const userExists = await users.exists(username);
+            const userExists = await users.exists(login);
             if (!userExists) {
                 console.log("L'utilisateur n'existe pas dans la bdd");
                 return res.status(404).json({
@@ -81,7 +82,8 @@ function init(db) {
                     message: "Nom d'utilisateur invalide"
                 });
             }
-            const userData = await users.getUserDataByUsername(username);
+            const userData = await users.getUserDataByUsername(login);
+            console.log("Voyons si userData contient qlq chose : " + userData);
 
             // Envoyer une réponse 200 OK si l'utilisateur existe
             return res.status(200).json({
@@ -116,11 +118,11 @@ function init(db) {
         .delete((req, res) => res.send(`delete user ${req.params.user_id}`));
 
     router.post("/user", (req, res) => {
-        const { username, email, password, lastname, firstname } = req.body;
-        if (!username || !email || !password || !lastname || !firstname) {
+        const { login, email, password, lastname, firstname } = req.body;
+        if (!login || !email || !password || !lastname || !firstname) {
             res.status(400).send("Missing fields");
         } else {
-            users.create(username, email, password, lastname, firstname)
+            users.create(login, email, password, lastname, firstname)
                 .then((user_id) => res.status(201).send({ id: user_id }))
                 .catch((err) => res.status(500).send(err));
         }
@@ -170,8 +172,9 @@ function init(db) {
 
         try {
             const allMessages = await messages.getAllMessages();
-            console.log(allMessages);
+            //console.log(allMessages);
             return res.send(allMessages);
+            
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -181,42 +184,66 @@ function init(db) {
    
     const requests = new Requests(db); // Création d'une instance de la classe Requests, sans ajouter default
 
-    router.route("/request/:request_id")
-        .get(async (req, res) => {
-            try {
-                const request = await requests.getRequest(req.params.request_id);
-                if (!request) {
-                    res.sendStatus(404);
-                } else {
-                    res.send(request);
-                }
-            } catch (error) {
-                res.status(500).json({ error: error.message });
-            }
-        })
-        .delete(async (req, res) => {
-            try {
-                await requests.deleteRequest(req.params.request_id);
-                res.sendStatus(204);
-            } catch (error) {
-                res.status(500).json({ error: error.message });
-            }
-        });
 
-    router.post("/request/:request_id/accept", async (req, res) => {
+    router.post("/request", async (req, res) => {
+        console.log("Rentré dans post request")
+        try{
+            const requestUser = req.body ; //on récupère les infos du user, on le cherche dans la base de données
+            //on essaie de récupèrer son id, grâce à son login ? 
+            //getUserDataBylogin(users.login); 
+
+            const newRequest = await requests.createRequest(requestUser); //créé une nouvelle demande d'inscription avec les données de l'utilisateur
+            //Envoi d'une réponse au frontend pour indiquer que la demande a été créée avec succès
+            //on envoi un code d'état, on utilise status. si on voulait envoyer des datas, on utilise res.send
+            res.status(201).json({
+                message:"Nouvelle demande d'inscription créée avec succès",
+                request: newRequest
+        });
+        }
+    catch(error){
+        res.status(500).json({
+            error:error.message
+        });
+    }
+    })
+  
+    
+    
+    router.delete("/request/:request_id/reject", async (req, res) => {
         try {
-            await requests.acceptRequest(req.params.request_id);
-            res.sendStatus(200);
+            await requests.deleteRequest(req.params.request_id);
+            res.sendStatus(204);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     });
 
+    router.post("/request/:request_id/accept", async (req, res) => {
+        console.log("Rentré dans la route de request accept");
+        try {
+            console.log("Rentré dans le try de request accept");
+            const newUserCreatedID = await requests.acceptRequest(req.params.request_id);
+            
+            res.status(201).json({
+                status: 201,
+                message: "Inscription acceptée !",
+                user: newUserCreatedID // Renvoi de l'ID
+            });
+        } 
+        catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    });
+
     router.get("/requests", async (req, res) => {
+        console.log("Rentré dans GET all requests")
+
         try {
             const allRequests = await requests.getAllRequests();
+            //console.log("AFFICHAGE DE TOUTES LES REQUETES : " + allRequests);
             res.send(allRequests);
-        } catch (error) {
+        } 
+        catch (error) {
             res.status(500).json({ error: error.message });
         }
     });

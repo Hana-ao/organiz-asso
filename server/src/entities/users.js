@@ -1,25 +1,39 @@
 class Users {
+
   constructor(db) {
       this.db = db;
-      // suite plus tard avec la BD
+      
   }
 
   // Retourne l'ID du nouvel utilisateur inséré
-  async create(name, lastName, username, email, password) {
+  async create(name, lastName, login, email, password) {
+    
       try {
-          const newUser = { name, lastName, username, email, password };
-  
-         //Avant de créer un utilisateur dans la bd, on veut vérifier s'il n'y est pas déjà pr éviter les doublons
-         if(this.exists(username)){ //this -> pr use exists de la classe Users, et qu'on est actuellement dans une instance d'user
-          console.log("Un utilisateur avec cet identifiant existe déjà");
+        const newUser = { 
+            name, 
+            lastName, 
+            login, 
+            email, 
+            password, 
+            isAdmin: false // Définition explicite de l'attribut isAdmin à false
+        };        
+        
+            //Avant de créer un utilisateur dans la bd, on veut vérifier s'il n'y est pas déjà pr éviter les doublons
+         if(this.exists(login)){ //this -> pr use exists de la classe Users, et qu'on est actuellement dans une instance d'user
+            console.log("Un utilisateur avec cet identifiant existe déjà");
       }
-      else if(this.exists(email)){
-          console.log("Un utilisateur avec cet email existe déjà");
-      }
-        const result = await this.db.collection('users').insertOne(newUser);
-          console.log("dans la bdd")
-          return result.insertedId;
-      } catch (error) {
+        else if(this.exists(email)){
+            console.log("Un utilisateur avec cet email existe déjà");
+        }
+            const result = await this.db.collection('users').insertOne(newUser);
+            console.log("dans la bdd");
+        return result.insertedId;
+         
+            
+        }
+
+         
+      catch (error) {
           throw new Error("Erreur lors de la création de l'utilisateur : " + error.message);
       }
   }
@@ -67,9 +81,9 @@ class Users {
   }
 
   // Méthode pour récupérer les données de l'utilisateur par son nom d'utilisateur
-  async getUserDataByUsername(username) {
+  async getUserDataByUsername(login) {
       try {
-          const user = await this.db.collection('users').findOne({ username });
+          const user = await this.db.collection('users').findOne({ login });
           return user; // Retourne les données de l'utilisateur
       } catch (error) {
           throw new Error("Erreur lors de la récupération des données de l'utilisateur : " + error.message);

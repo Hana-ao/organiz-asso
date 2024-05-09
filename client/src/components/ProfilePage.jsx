@@ -1,17 +1,27 @@
 import User from "./User";
-import { Link } from 'react-router-dom';
+import '../styles/ProfilePage.css';
+import Message from "./Message";
 
-function ProfilePage(){
+function ProfilePage({history, location}){
+    const {currentUser} = location.state || {};
 
-    
+    function handleClick(){
+        history.push({
+            pathname: "/forum"
+        })
+        window.location.reload();
+    }
 
     return (
-        <div>
-            <h2>Bienvenue sur la page de profil</h2>
-            <User/>
-            <Link to="/forum">
-         <button>Forum</button>
-        </Link>
+        <div className="profile-page-box">
+            
+                <h2>Bienvenue sur la page de profil</h2>
+            
+                    <User {...currentUser}/> {/*autre façon d'écrire: <User _id={currentUser._id} name={currentUser.name} lastName={currentUser.lastName} login={currentUser.login} email={currentUser.email} isAdmin={currentUser.isAdmin} /> */}
+                    <h3>Vos messages</h3>
+                    <Message currentUser={currentUser}/>
+         <button onClick={handleClick}>Forum</button>
+        
         </div>
     )
 }

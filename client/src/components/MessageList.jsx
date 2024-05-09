@@ -5,6 +5,7 @@ import axios from 'axios';
 import MessageForm from './MessageForm'; 
 
 function MessageList({ currentUser }) {
+
     const [messages, setMessages] = useState([]);
     axios.defaults.baseURL = 'http://localhost:4000';
 
@@ -22,6 +23,10 @@ function MessageList({ currentUser }) {
     // Fonction pour ajouter un nouveau message à la liste
     function handleMessageSubmit(newMessage) {
         setMessages(prevMessages => [...prevMessages, newMessage]);
+        //Pour éviter d'avoir à actualiser après chaque changement, on utilise useEffect
+  
+        window.location.reload(); //permet de recharger la page
+ 
     }
 
     return (

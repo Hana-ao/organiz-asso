@@ -12,13 +12,14 @@ function MessageForm({ onMessageSubmit, currentUser }) {
 
     // Fonction pour soumettre le nouveau message
     function handleSubmit(event) {
+        
         event.preventDefault();
         const currentDate = new Date();
         const stringifiedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} à ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
         // Créer l'objet message avec les données du formulaire
         const messageData = {
-            author: currentUser.username,
+            author: currentUser.login,
             content: messageContent,
             date: stringifiedDate,
         };

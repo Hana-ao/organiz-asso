@@ -6,6 +6,7 @@ class Messages {
 
     // Fonction pour afficher un message
     getMessage(messageId) {
+        
         return new Promise((resolve, reject) => {
             this.db.collection("messages").findOne({ _id: messageId }, (err, message) => {
                 if (err) {

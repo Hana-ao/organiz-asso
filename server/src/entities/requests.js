@@ -1,53 +1,82 @@
+const Users = require('./users.js');
+const { ObjectId } = require('mongodb');
+
 class Requests {
   constructor(db) {
     this.db = db;
-    // Suite à venir avec la base de données
+    this.users = new Users(db);
   }
 
-  // Fonction pour récupérer une demande spécifique
-  getRequest(requestId) {
-    return new Promise((resolve, reject) => {
-      // Code pour récupérer la demande avec l'ID spécifié depuis la base de données
-      // Remplacer le code factice par la logique de base de données réelle
-      const request = {
-        id: requestId,
-        description: "Sample request description",
-        // Autres propriétés de la demande
-      };
-      resolve(request);
-    });
-  }
+
+ 
 
   // Fonction pour créer une nouvelle demande
   createRequest(requestData) {
+
     return new Promise((resolve, reject) => {
       // Code pour créer une nouvelle demande avec les données spécifiées dans la base de données
-      // Remplacer le code factice par la logique de base de données réelle
-      const newRequest = {
-        id: 1, // ID de la nouvelle demande créée
-        ...requestData, // Autres données de la demande
-      };
-      resolve(newRequest);
+
+      
+      this.db.collection("requests").insertOne(requestData, (err,result) => {
+        if(err){
+          reject(err);
+        }else{
+          const newRequest= {
+            id: result.insertedId, //on utilise l'id généré par la bd
+            ...requestData
+          }
+          resolve(newRequest);
+        }
+
+      })
+      
     });
   }
 
-  // Fonction pour supprimer une demande
-  deleteRequest(requestId) {
-    return new Promise((resolve, reject) => {
-      // Code pour supprimer la demande avec l'ID spécifié de la base de données
-      // Remplacer le code factice par la logique de base de données réelle
-      resolve();
-    });
+  async deleteRequest(request_id) {
+    try {
+        // Supprimer la demande avec l'ID spécifié de la base de données
+        // Remplacer le code factice par la logique de base de données réelle
+        const result = await this.db.collection("requests").deleteOne({ _id: new ObjectId(request_id) });
+        return result.deletedCount === 1 ? request_id : null; // La propriété deletedCount de cet objet indique le nombre de documents supprimés.
+    } catch (error) {
+        throw new Error("Erreur lors de la suppression de la demande : " + error.message);
+    }
+}
+  async getAllRequests() {
+    try {
+        const allRequests = await this.db.collection("requests").find().toArray();
+        return allRequests;
+    } catch (error) {
+        throw new Error("Erreur lors de la récupération de la liste des demandes : " + error.message);
+    }
+}
+
+
+  async acceptRequest(request_id){
+    try{
+      console.log("entré dans acceptRequest");
+      console.log(request_id);
+        const request = await this.db.collection('requests').findOne({_id : new ObjectId(request_id)});
+        console.log("findone fonctionne");
+        console.log(request);
+        const {name, lastName, login, email, password} = request;
+        console.log("tout va bien pour l'heure");
+
+
+        const newUserCreatedID = await this.users.create(name,lastName,login,email,password); //on peut enfin créer le user
+        // newUserCreatedID contient l'ID de l'utilisateur créé
+
+        console.log("Nouvel utilisateur créé :", newUserCreatedID);
+
+        //une fois que le user a été créé, on supprime sa demande d'inscription de la liste
+        await this.deleteRequest(request_id);
+        return newUserCreatedID;
+    }
+    catch{
+      throw new Error("Erreur lors de l'acceptation de l'inscription de l'utilisateur");
+    }
   }
-  getAllRequests() {
-    return new Promise((resolve, reject) => {
-      // Code pour récupérer toutes les demandes depuis la base de données
-      // Remplacer le code factice par la logique de base de données réelle
-      const allRequests = [];
-      resolve(allRequests);
-    });
-  }
-  // Autres méthodes à ajouter selon les besoins
 }
 
 module.exports = Requests;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import "../styles/MainPage.css";
 import SignIn from "./SignIn";
 import Forum from "./Forum";
@@ -7,10 +7,12 @@ import AdminPanel from "./AdminPanel";
 import {Link} from "react-router-dom"
 
 function MainPage({ history }) {
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [isConnected, setConnected] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
+  
   function login(currentUser) {
     setConnected(true);
     setCurrentUser(currentUser);
@@ -20,7 +22,9 @@ function MainPage({ history }) {
   function logout() {
     setConnected(false);
   }
-
+  function handleClick(){
+    window.location.reload();
+  }
   return (
     <>
       
@@ -30,10 +34,10 @@ function MainPage({ history }) {
           <h2>Le site qui vous permet d'échanger avec votre asso'</h2>  
           <div className="options">
           <p>Pour vous connecter, c'est par ici :</p>
-          <Link to="/login">Se connecter</Link>
+          <Link to="/login"  >Se connecter</Link>
 
           <p>Et pour vous inscrire, c'est par là :</p>
-          <Link to="/signin">S'inscrire </Link>
+          <Link to="/signin" >S'inscrire </Link>
           </div>
         </div>
       ):(
@@ -46,8 +50,9 @@ function MainPage({ history }) {
             logout={logout}
             isConnected={isConnected}
             currentUser={currentUser}
+            history={history}
           />
-          <ProfilePage /> {/* Afficher le composant ProfilePage si l'utilisateur est connecté */}
+          <ProfilePage history={history}/> {/* Afficher le composant ProfilePage si l'utilisateur est connecté */}
         </div>
       
       

@@ -1,31 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import AdminControls from "./AdminControls";
 import AdminApprovalList from "./AdminApprovalList";
 {/*import '../styles/AdminPanel.css';*/}
 
+
 function AdminPanel() {
+
+
+    
     // Exemple de données d'utilisateurs à approuver
-    const [usersToApprove, setUsersToApprove] = useState([
-        { id: 1, username: 'User1' },
-        { id: 2, username: 'User2' },
-        { id: 3, username: 'User3' }
-    ]);
+    const [usersToApprove, setUsersToApprove] = useState([]);
 
-    // Fonction pour approuver un utilisateur
-    const handleApproveUser = (userId) => {
-        // Mettre à jour la liste des utilisateurs approuvés
-        const updatedUsers = usersToApprove.filter(user => user.id !== userId);
-        setUsersToApprove(updatedUsers);
-        // Ajouter la logique pour approuver l'utilisateur dans votre application
+    
+   
+
+    async function handleApproveUser(userId) {
+        try {
+            await axios.post(`api/request/${userId}/accept`);
+            setUsersToApprove(prevUsers => prevUsers.filter(user => user._id !== userId));
+            usersToApprove.forEach(user => {
+                console.log("Affichage des logins " + user.login);
+                
+            })
+        } catch {
+            console.error("Erreur durant l'approbation de l'utilisateur");
+        }
+    }
+    
+    async function handleRejectUser(userId) {
+        try {
+            await axios.delete(`api/request/${userId}/reject`);
+            setUsersToApprove(prevUsers => prevUsers.filter(user => user._id !== userId));
+        } catch {
+            console.error("Erreur lors du rejet de l'utilisateur");
+        }
     };
 
-    // Fonction pour rejeter un utilisateur
-    const handleRejectUser = (userId) => {
-        // Mettre à jour la liste des utilisateurs approuvés
-        const updatedUsers = usersToApprove.filter(user => user.id !== userId);
-        setUsersToApprove(updatedUsers);
-        // Ajouter la logique pour rejeter l'utilisateur dans votre application
-    };
+    // Appel à fetchUsersToApprove pour mettre à jour la liste des demandes d'approbation
+    async function fetchUsersToApprove() {
+        try {
+            const response = await axios.get(`api/requests`);
+            if (Array.isArray(response.data)) {
+                setUsersToApprove(response.data);
+            } else {
+                console.error("La réponse du serveur n'est pas dans le format attendu.");
+            }
+        } catch {
+            console.error("Erreur durant la récupération des demandes d'inscription");
+        }
+    }
 
     // Fonction pour accorder les droits d'administration
     const handleGrantAdmin = () => {
@@ -36,16 +60,21 @@ function AdminPanel() {
     const handleRevokeAdmin = () => {
         // Ajouter la logique pour révoquer les droits d'administration dans votre application
     };
+    useEffect(() => {
+        fetchUsersToApprove();
+     },[])
 
     return (
         <div className='admin-panel'>
             {/* Contenu de votre panneau d'administration */}
             <h2>Panel d'administration</h2>
             {/* Ajoutez d'autres éléments et fonctionnalités ici */}
-            <AdminControls onGrantAdmin={handleGrantAdmin} onRevokeAdmin={handleRevokeAdmin} />
             <AdminApprovalList usersToApprove={usersToApprove} onApprove={handleApproveUser} onReject={handleRejectUser} />
+            <AdminControls onGrantAdmin={handleGrantAdmin} onRevokeAdmin={handleRevokeAdmin} />
+
         </div>
     );
+    
 }
 
 export default AdminPanel;

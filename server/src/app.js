@@ -65,7 +65,7 @@ const server = app.listen(4000, async () => {
     
 });
 
-// Gestionnaire d'événements pour SIGINT
+// Gestionnaire d'événements pour SIGNIN
 
 
 async function faitDesChoses(client) {
@@ -75,9 +75,9 @@ async function faitDesChoses(client) {
     // Utilise le routeur pour gérer les requêtes vers /api
     app.use('/api', router);
     // Exemple : récupérer tous les utilisateurs de la collection "users"
-    const usersCollection = db.collection('users');
-    const users = await usersCollection.find({}).toArray();
-    console.log("Liste des utilisateurs :", users);
+    //const usersCollection = db.collection('users');
+    //const users = await usersCollection.find({}).toArray();
+   // console.log("Liste des utilisateurs :", users);
 }
 
 // Exporte le serveur pour les tests unitaires ou autres utilisations

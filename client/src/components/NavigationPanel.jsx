@@ -3,13 +3,13 @@ import Logout from "./Logout";
 import '../styles/NavigationPanel.css'
 import User from "./User"
 
-function NavigationPanel({login, logout, isConnected, currentUser,currentPage}){
+function NavigationPanel({history, login, logout, isConnected, currentUser,currentPage}){
     return (
         <div className="navigation-panel">
             <nav>
                 {isConnected ? (
                     <> 
-                    <Logout logout={logout} />
+                    <Logout history={history} logout={logout} />
                     {<User {...currentUser}/> && currentUser}
                     </>
                     
