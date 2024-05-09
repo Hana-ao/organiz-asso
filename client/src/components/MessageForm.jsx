@@ -19,16 +19,21 @@ function MessageForm({ onMessageSubmit, currentUser }) {
 
         // Créer l'objet message avec les données du formulaire
         const messageData = {
-            author: currentUser.login,
+            
+            author: currentUser.username,
             content: messageContent,
             date: stringifiedDate,
+
         };
 
         // Appeler l'API pour créer un nouveau message
         axios.post('/api/message', messageData)
             .then(response => {
+                const data = response.data;
+                console.log('ID du message créé :', data.id);
+
                 // Mettre à jour la liste des messages après l'ajout du nouveau message
-                onMessageSubmit(response.data);
+                onMessageSubmit(data);
                 // Réinitialiser le champ du formulaire
                 setMessageContent('');
             })

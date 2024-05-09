@@ -2,7 +2,7 @@ const express = require("express");
 const Users = require("./entities/users.js");
 const Messages = require("./entities/messages.js");
 const Requests = require("./entities/requests.js");
-const session = require('express-session');
+
 
 function init(db) {
     console.log('init est lancé');
@@ -153,33 +153,72 @@ function init(db) {
             res.status(400).send("Missing fields");
         } else {
             messages.createMessage(message)
-                .then((message_id) => res.status(201).send({ id: message_id }))
+                .then((message) => res.status(201).send({ id: message._id}))
                 .catch((err) => res.status(500).send(err));
         }
     });
 
     router.delete("/message/:message_id", async (req, res) => {
         try {
-            await messages.deleteMessage(req.params.message_id);
+            console.log("delete");
+            const messageId = req.params.message_id;
+            console.log('delete2');
+            console.log(messageId);
+            await messages.deleteMessage(messageId);
+            console.log('deleeted');
             return res.sendStatus(204);
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
     });
-
+    
+    
     router.get("/messages", async (req, res) => {
         console.log("route bien trouvée");
 
         try {
             const allMessages = await messages.getAllMessages();
-            //console.log(allMessages);
+      
             return res.send(allMessages);
             
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
     });
+    router.get("/messages/search", async (req, res) => {
+        console.log("route de search trouvée");
+        try {
+            // Récupérer les critères de recherche depuis les paramètres de requête
+            const { searchTerm, startDate, endDate, author } = req.query;
+            
+            // Effectuer la recherche dans la collection de messages en fonction des critères
+            const searchResults = await messages.searchMessages(searchTerm, startDate, endDate, author);
+            console.log(searchResults);
+            // Retourner les résultats de la recherche
+            return res.json(searchResults);
+        } catch (error) {
+            // En cas d'erreur, renvoyer un statut 500 avec le message d'erreur
+            return res.status(500).json({ error: error.message });
+        }
+    });
+    router.post('/messages/:id/reply', async (req, res) => {
+        const messageId = req.params.id;
+        const { content, author } = req.body; // Assure-toi d'obtenir l'auteur de la requête
+    
+        try {
+            await messages.replyToMessage(messageId, content, author); // Passe l'auteur à la fonction replyToMessage
+            res.status(201).json({ message: 'Réponse envoyée avec succès' });
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi de la réponse :', error);
+            res.status(500).json({ error: 'Erreur lors de l\'envoi de la réponse' });
+        }
+    });
+    
+    
+    
 
+    
+    
     //-------------------------------------------------------------------------------------------------------//
    
     const requests = new Requests(db); // Création d'une instance de la classe Requests, sans ajouter default
