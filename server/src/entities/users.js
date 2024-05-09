@@ -89,6 +89,26 @@ class Users {
           throw new Error("Erreur lors de la récupération des données de l'utilisateur : " + error.message);
       }
   }
+  async grantAdmin(userId){
+    try{
+        await this.db.collection('users').updateOne({_id : userId},{ $set: { isAdmin : true}});
+        console.log("Droits d'administration accordés avec succès !");
+    }
+    catch(error){
+        throw new Error("Erreur durant l'accord des droits d'administration", error);
+    }
+  }
+
+  async revokeAdmin(userId){
+    try{
+        await this.db.collection('users').updateOne({_id: userId}, { $set: { isAdmin: false}});
+        console.log("Droits d'administration révoqués avec succès !");
+    }
+    catch(error){
+        throw new Error("Erreur durant la révoquation des droits d'administration", error);
+    }
+  }
 }
+    
 
 module.exports = Users;

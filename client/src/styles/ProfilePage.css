@@ -1,24 +1,30 @@
-.profile-page-box{
-    /* max-width: 800px; */
-    padding: 20px;
-    margin: 0 auto;
-    background-color: #e0d3deff;
 
+.profile-page-box {
+    max-width: 600px; /* Limite la largeur maximale de la boîte */
+    margin: 0 auto; /* Centre la boîte horizontalement */
+    padding: 20px; /* Ajoute de l'espace à l'intérieur de la boîte */
+    
+  }
+*{
+    font-family: 'Courier New', Courier, monospace;
 }
-
-.profile-page-box h2{
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.profile-page-box button{
-    padding: 10px 20px;
+  
+  .profile-page-box h2 {
+    font-size: 24px; /* Taille de police du titre */
+    color: #333; /* Couleur du texte */
+    margin-bottom: 20px; /* Ajoute de l'espace en bas du titre */
+  }
+  
+  .profile-page-box button {
+    padding: 10px 20px; /* Ajoute de l'espace à l'intérieur du bouton */
     font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.profile-page-box button:hover{
-    background-color: #cbb8a9ff;
-}
+    color: #fff; /* Couleur du texte du bouton */
+    border: none; /* Supprime la bordure du bouton */
+    border-radius: 5px; /* Arrondit les coins du bouton */
+    cursor: pointer; /* Affiche un curseur au survol */
+    
+  }
+  
+  .profile-page-box button:hover {
+    background-color: #a78972; /* Change la couleur de fond du bouton au survol */
+  }

@@ -117,6 +117,41 @@ function init(db) {
         })
         .delete((req, res) => res.send(`delete user ${req.params.user_id}`));
 
+    router.get("/users", async (req,res) => {
+        try{
+            const allUsers = await users.getAllUsers();
+            return res.send(allUsers);
+        }
+        catch(error){
+            res.status(500).json({error: error.message});
+        }
+    });
+
+    router.put("/users/:user_id/grant-admin", async (req, res) => {
+        try{
+            console.log("rentre dans grant-admin");
+            const userId = req.params.user_id;
+            await users.grantAdmin(userId);
+            return res.status(200).send({message : "Droits d'administration accordés avec succès !"});
+        }
+        catch(error){
+            res.status(500).json({error : error.message});
+        }
+
+    });
+
+    router.put("/users/:user_id/revoke-admin", async (req,res) => {
+        try{
+            console.log("rentre dans revoke-admin");
+            const userId = req.params.user_id;
+            await users.revokeAdmin(userId);
+            return res.status(200).send({message: "Droits d'administration révoqués avec succès !"});
+        }
+        catch(error){
+            res.status(500).json({error: error.message});
+        }
+    });
+
     router.post("/user", (req, res) => {
         const { login, email, password, lastname, firstname } = req.body;
         if (!login || !email || !password || !lastname || !firstname) {
@@ -185,6 +220,7 @@ function init(db) {
             return res.status(500).json({ error: error.message });
         }
     });
+
     router.get("/messages/search", async (req, res) => {
         console.log("route de search trouvée");
         try {

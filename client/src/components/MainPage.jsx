@@ -31,7 +31,7 @@ function MainPage({ history }) {
       {!isConnected ? (
         <div className="choix">
           <h1>Bienvenue sur OrganizAsso ! </h1>
-          <h2>Le site qui vous permet d'échanger avec votre asso'</h2>  
+          <h3><div className="italic">Le site qui vous permet d'échanger avec votre asso'</div></h3>  
           <div className="options">
           <p>Pour vous connecter, c'est par ici :</p>
           <Link to="/login"  >Se connecter</Link>

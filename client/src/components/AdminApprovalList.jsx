@@ -8,16 +8,16 @@ function AdminApprovalList({ usersToApprove, onApprove, onReject }) {
             <ul>
                 {usersToApprove.map(user => (
                     <li key={user.userId}>
-                        <div className='admin-approval-list-user'>
-                            <p>ID de la demande d'inscription : {user._id}</p> {/*à ne pas confondre avec l'ID de l'utilisateur */}
-                            <p>Prénom: {user.name}</p>
-                            <p>Nom: {user.lastName}</p>
-                            <p>Identifiant: {user.login}</p>
+                        
+                            <p>ID de la demande d'inscription : <strong>{user._id}</strong></p> {/*à ne pas confondre avec l'ID de l'utilisateur */}
+                            <p>Prénom: <strong>{user.name}</strong></p>
+                            <p>Nom: <strong>{user.lastName}</strong></p>
+                            <p>Identifiant: <strong>{user.login}</strong></p>
                             
                         
                         <button onClick={() => onApprove(user._id)}>Approuver</button>
                         <button onClick={() => onReject(user._id)}>Rejeter</button>
-                        </div>
+                        
                     </li>
                     
                 ))}

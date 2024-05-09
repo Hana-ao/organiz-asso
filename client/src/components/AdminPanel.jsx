@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import AdminControls from "./AdminControls";
 import AdminApprovalList from "./AdminApprovalList";
-{/*import '../styles/AdminPanel.css';*/}
+import UserList from './UserList';
+import '../styles/AdminPanel.css';
 
 
-function AdminPanel() {
+function AdminPanel({currentUser}) {
 
 
     
     // Exemple de données d'utilisateurs à approuver
     const [usersToApprove, setUsersToApprove] = useState([]);
+    const [grantAdmin, setGrantAdmin] = useState(""); //pour afficher un msg
+    const [revokeAdmin, setRevokeAdmin] = useState("");
 
     
    
@@ -52,13 +54,26 @@ function AdminPanel() {
     }
 
     // Fonction pour accorder les droits d'administration
-    const handleGrantAdmin = () => {
-        // Ajouter la logique pour accorder les droits d'administration dans votre application
+    const handleGrantAdmin = async (userId) => {
+        try{
+            await axios.put(`api/users/${userId}/grant-admin`);
+            setGrantAdmin("Droits d'administration accordés avec succès à l'utilisateur n° "+ userId);
+        }
+        catch(error){
+            console.error("Erreur dans grantAdmin: ",error);
+        }
     };
 
     // Fonction pour révoquer les droits d'administration
-    const handleRevokeAdmin = () => {
-        // Ajouter la logique pour révoquer les droits d'administration dans votre application
+    const handleRevokeAdmin = async (userId) => {
+        try{
+            await axios.put(`api/users/${userId}/revoke-admin`);
+            setRevokeAdmin("Droits d'administration révoqués avec succès à l'utilisateur n° "+ userId);
+            
+        }
+        catch(error){
+            console.error("Erreur dans revokeAdmin: ",error);
+        }
     };
     useEffect(() => {
         fetchUsersToApprove();
@@ -67,11 +82,13 @@ function AdminPanel() {
     return (
         <div className='admin-panel'>
             {/* Contenu de votre panneau d'administration */}
-            <h2>Panel d'administration</h2>
+            <span><h2>Panel d'administration</h2></span>
             {/* Ajoutez d'autres éléments et fonctionnalités ici */}
             <AdminApprovalList usersToApprove={usersToApprove} onApprove={handleApproveUser} onReject={handleRejectUser} />
-            <AdminControls onGrantAdmin={handleGrantAdmin} onRevokeAdmin={handleRevokeAdmin} />
-
+            {grantAdmin && <p>{grantAdmin}</p>}
+            {revokeAdmin && <p>{revokeAdmin}</p>}
+            <UserList currentUser={currentUser} onGrantAdmin={handleGrantAdmin} onRevokeAdmin={handleRevokeAdmin}/>
+            
         </div>
     );
     

@@ -26,23 +26,26 @@ function Forum(props) {
 
     return (
         <>
-            <div className="message-page">
-                {/* On utilise Link pour créer un lien vers la page de profil */}
-               
-                    <button className="custom-button-pageprofil" onClick={handleClickProfilePage}>Page de profil</button>
-               
+            <div className="forum-container">
+            <header>
+                <h1>Forum OrganizAsso</h1>
+                <SearchMessages />
+                <button className="custom-button-pageprofil" onClick={handleClickProfilePage}>Aller sur la page de profil</button>
+                <Logout history={history} />
+                
+            </header>
            
-
-            <Logout history={history} />
-            {/* <div className="message-page-msg"> */}
-                <MessageList currentUser={currentUser} />
-                <div className="searchmessage">
-                    <SearchMessages />
-                    {isAdmin && (<div>
-                        <AdminPanel />
-                        </div>)}
-                    
+            
+            <main>
+                <div className="message-panel">
+                <MessageList currentUser={currentUser} /> </div>
+                <div className="search-panel">
+                    {isAdmin && (<AdminPanel currentUser={currentUser} />)}
                 </div>
+            </main>
+            <footer>
+                <p>&copy; 2024 OrganizAsso. Tous droits réservés.</p>
+            </footer>
             </div>
             
         </>

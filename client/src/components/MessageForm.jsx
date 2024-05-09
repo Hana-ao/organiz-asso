@@ -44,9 +44,9 @@ function MessageForm({ onMessageSubmit, currentUser }) {
 
     return (
         <div className='message-form'>
-            <h2>Ajouter un nouveau message</h2>
+            
             <form onSubmit={handleSubmit}>
-                <label>Contenu du message</label>
+                <label>Ajouter un nouveau message </label>
                 <input
                     type='text'
                     value={messageContent}

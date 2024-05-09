@@ -1,27 +1,33 @@
-.signin-page{
-    display: flex;
-    flex-direction: row;
-}
-h1{
-    color: #CBB8A9;
+h1, h3{
+    color: #333333;
+    padding: 20px;
 }
 .choix{
     align-items: center;
     text-align: center;
     display: flex;
     flex-direction: column;
+    
+}
+.italic {
+    font-style: italic;
 }
 .options{
     border : 1px black solid;
     border-radius: 15px;
-    width : 25%;
-    padding : 25px;
+    width : 300px;
+    padding : 20px;
     background-color: beige;
+    margin-top: 20px;
 
 }
-.message-page{
-    display: flex;
-    gap : 20px;
-    justify-content: flex-start;
+
+.options a {
+    display: block;
+    margin-top: 10px;
+    
+}
+.options p{
+    margin-bottom: 10px;
 }
 

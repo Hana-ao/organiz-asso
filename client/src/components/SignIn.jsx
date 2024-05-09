@@ -77,7 +77,7 @@ function SignIn({ history }) {
             <form className='signin-form' onSubmit={handleSubmit}>
                 <label>Prénom</label> <label>Nom</label>
                 <input type="text" name="name" value={name} onChange={handleChange} className='input-signin-name'/>
-                <input type="text" name="lastNam e" value={lastName} onChange={handleChange} className='input-signin-lastName'/>
+                <input type="text" name="lastName" value={lastName} onChange={handleChange} className='input-signin-lastName'/>
 
                 <label>Identifiant</label>
                 <input type="text" name="login" value={login} onChange={handleChange} className='input-signin-login'/>

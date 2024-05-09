@@ -1,0 +1,40 @@
+.search-messages-container {
+    max-width: 600px; /* Limite la largeur maximale du conteneur */
+    margin: 0 auto; /* Centre le conteneur horizontalement */
+    padding: 20px; /* Ajoute de l'espace à l'intérieur du conteneur */
+  }
+  
+   h2 {
+    
+    margin-bottom: 20px; /* Ajoute de l'espace en bas du titre */
+    color: #333; /* Couleur du texte */
+  }
+  
+  .search-messages-form input[type="text"],
+  .search-messages-form input[type="date"] {
+    width: calc(33.33% - 10px); /* Définit la largeur des champs de texte et de date */
+    margin-right: 10px; /* Ajoute un espace à droite des champs */
+    padding: 10px; /* Ajoute de l'espace à l'intérieur des champs */
+    border: 1px solid #ccc; /* Ajoute une bordure autour des champs */
+    border-radius: 5px; /* Arrondit les coins des champs */
+  }
+  
+ 
+  
+  .search-messages-form button {
+    padding: 10px 20px; /* Ajoute de l'espace à l'intérieur du bouton */
+    
+  }
+  
+
+  
+  .search-result {
+    border: 1px solid #ccc; /* Ajoute une bordure autour du résultat */
+    border-radius: 5px; /* Arrondit les coins du résultat */
+    padding: 10px; /* Ajoute de l'espace à l'intérieur du résultat */
+    margin-bottom: 10px; /* Ajoute de l'espace en bas du résultat */
+  }
+  
+  .search-result p {
+    margin: 5px 0; /* Ajoute de l'espace autour des paragraphes à l'intérieur du résultat */
+  }

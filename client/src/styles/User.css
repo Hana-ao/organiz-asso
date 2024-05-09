@@ -1,0 +1,10 @@
+.user-info {
+    border: 1px solid #ccc; /* Ajoute une bordure autour des informations de l'utilisateur */
+    border-radius: 5px; /* Arrondit les coins */
+    padding: 10px; /* Ajoute de l'espace à l'intérieur */
+    margin-bottom: 20px; /* Ajoute de l'espace en bas */
+  }
+  
+  .user-info p {
+    margin: 5px 0; /* Ajoute de l'espace autour des paragraphes à l'intérieur de la boîte */
+  }
