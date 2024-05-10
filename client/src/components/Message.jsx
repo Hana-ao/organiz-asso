@@ -6,7 +6,7 @@ import RepliesList from './RepliesList';
 import axios from 'axios';
 
 
-function Message({ ident, author, content, date, onDeleteMessage, replies, topic }) {
+function Message({ ident, author, content, date, onDeleteMessage, replies, topic, currentUser }) {
     const [showReplies, setShowReplies] = useState(false);
     const [replyMessages, setReplyMessages] = useState([]);
     console.log(replies);
@@ -48,13 +48,14 @@ function Message({ ident, author, content, date, onDeleteMessage, replies, topic
                                     onDeleteMessage={onDeleteMessage}
                                     replies={reply.repliesID}
                                     topic={reply.topic}
+                                    currentUser={currentUser}
                                 />
                             </li>
                         ))}
                     </ul>
                 </>
             )}
-            <ReplyMessage messageId={ident} currentUser={author} />
+            <ReplyMessage messageId={ident} currentUser={currentUser} />
 
             <DeleteMessage onDelete={handleDeleteMessage} messageId={ident} />
         </div>

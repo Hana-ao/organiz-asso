@@ -50,6 +50,7 @@ function MessageList({ currentUser }) {
                             replies={message.repliesID}
                             topic={message.topic}
                             onDeleteMessage={handleDeleteMessage}
+                            currentUser={currentUser}
                         />
                     </li>
                 </ul>

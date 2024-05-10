@@ -20,7 +20,7 @@ function MessageForm({ onMessageSubmit, currentUser }) {
         const stringifiedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} à ${currentDate.getHours()}:${currentDate.getMinutes()}`;
 
         const messageData = {
-            author: currentUser,
+            author: currentUser.login,
             content: messageContent,
             date: stringifiedDate,
             topic: topic, // Ajout du topic

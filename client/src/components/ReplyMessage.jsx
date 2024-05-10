@@ -14,7 +14,7 @@ function ReplyMessage({ messageId, currentUser }) {
         const stringifiedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} à ${currentDate.getHours()}:${currentDate.getMinutes()}`;
     
         const replyData = {
-            author: currentUser,
+            author: currentUser.login,
             content: replyContent,
             date: stringifiedDate,
             parentId: messageId, // Utiliser l'ID du message auquel on répond
@@ -28,7 +28,7 @@ function ReplyMessage({ messageId, currentUser }) {
             console.log(parentTopic);
             // Définir replyData2
             const replyData2 = {
-                author: currentUser,
+                author: currentUser.login,
                 content: replyContent,
                 date: stringifiedDate,
                 parentId: messageId,

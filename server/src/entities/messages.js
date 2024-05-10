@@ -201,6 +201,16 @@ async replyToMessage(messageId, replyContent, author, parentId) {
         throw new Error('Erreur lors de la réponse au message : ' + error.message);
     }
 }
+async getUserMessages(username) {
+    try {
+        const results = await this.db.collection('messages').find({ author: username }).toArray();
+        return results;
+    } catch (error) {
+        throw new Error("Erreur lors de la recherche des messages : " + error.message);
+    }
+}
+
+
 
     
    

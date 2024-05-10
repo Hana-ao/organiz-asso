@@ -163,7 +163,15 @@ function init(db) {
         }
     });
 
-
+    router.get("/users", async (req, res) => {
+        try {
+            const allUsers = await users.getAllUsers();
+            return res.json(allUsers);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    });
+    
 
     //-------------------------------------------------------------------------------------------------------//
 
@@ -278,6 +286,17 @@ function init(db) {
             return res.status(500).json({ error: error.message });
         }
     });
+    router.get("/messages/user/:username", async (req, res) => {
+        console.log("route pour messages user check");
+        try {
+            const username = req.params.username; // Récupérer le nom d'utilisateur depuis les paramètres de la route
+            const userMessages = await messages.getUserMessages(username);
+            return res.json(userMessages);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    });
+    
    // Route pour répondre à un message
 
 // router.post('/messages/:id/reply', async (req, res) => {
