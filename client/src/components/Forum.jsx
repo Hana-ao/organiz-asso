@@ -10,7 +10,7 @@ import AdminPanel from './AdminPanel';
 function Forum(props) {
     const { history, location} = props;
     const currentUser = location.state ? location.state.currentUser : null;
-
+    console.log(currentUser.isAdmin);
     const isAdmin = currentUser && currentUser.isAdmin; //Si currentUser est null ou undefined, alors isAdmin sera automatiquement false sans même vérifier currentUser.isAdmin
     console.log("Verification de isAdmin : " + isAdmin);
     
