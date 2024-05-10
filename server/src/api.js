@@ -183,6 +183,21 @@ function init(db) {
             return res.status(500).json({ error: error.message });
         }
     });
+    router.post("/messages/replies", async (req, res) => {
+        try {
+            const { replyIds } = req.body;
+            if (!replyIds || !Array.isArray(replyIds) || replyIds.length === 0) {
+                return res.status(400).json({ error: "Veuillez fournir une liste d'IDs de réponses" });
+            }
+    
+            // Utilisez votre méthode pour récupérer les messages correspondants aux IDs de réponse
+            const replyMessages = await messages.getMessagesByReplyIds(replyIds);
+    
+            return res.json(replyMessages);
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
+        }
+    });
     
     router.post("/message", async (req, res) => {
         try {

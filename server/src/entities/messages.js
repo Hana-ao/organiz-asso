@@ -22,6 +22,21 @@ class Messages {
             throw new Error("Erreur lors de la récupération du message : " + error.message);
         }
     }
+    async getMessagesByReplyIds(replyIds) {
+        try {
+            const messagePromises = replyIds.map(async (replyId) => {
+                return await this.getMessage(replyId);
+            });
+            
+            // Attendre la résolution de toutes les promesses pour obtenir les messages correspondants
+            const messages = await Promise.all(messagePromises);
+            
+            return messages;
+        } catch (error) {
+            console.error("Erreur lors de la récupération des messages :", error);
+            throw new Error("Erreur lors de la récupération des messages : " + error.message);
+        }
+    }
     
     
     // Fonction pour récupérer tous les messages
@@ -47,11 +62,11 @@ class Messages {
                     const result = await this.db.collection("messages").insertOne(messageData);
                     console.log(result);
                     const insertedId = result.insertedId;
-                    const reply= await this.getMessage(insertedId);
+                    
                     // Mettre à jour la liste des réponses du parent avec l'ID de la nouvelle réponse
                     await this.db.collection("messages").updateOne(
                         { _id: new ObjectId(messageData.parentId) },
-                        { $push: { repliesID: reply } }
+                        { $push: { repliesID: insertedId } }
                     );
                     
                     console.log("Réponse créée avec succès !");

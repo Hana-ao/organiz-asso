@@ -28,49 +28,36 @@ function MessageList({ currentUser }) {
         setMessages(prevMessages => prevMessages.filter(message => message._id !== messageId));
     }
 
-    // Fonction pour trier les messages par leur topic
-    function sortMessagesByTopic(messages) {
-        const sortedMessages = {};
-        messages.forEach(message => {
-            const { topic } = message;
-            if (!sortedMessages[topic]) {
-                sortedMessages[topic] = [];
-            }
-            sortedMessages[topic].push(message);
-        });
-        return sortedMessages;
-    }
-
-    // Trier les messages par topic
-    const sortedMessages = sortMessagesByTopic(messages);
-
+    // Filtrer les messages pour afficher uniquement ceux dont le parentId est null
+    const rootMessages = messages.filter(message => message.parentId === null);
+    
     return (
-        <div className='message-list'>
-            <h1>Liste des messages par topic</h1>
-            {/* Afficher le formulaire pour ajouter un nouveau message */}
-            <MessageForm onMessageSubmit={handleMessageSubmit} currentUser={currentUser} />
-            {/* Afficher les messages par topic */}
-            {Object.entries(sortedMessages).map(([topic, topicMessages]) => (
-                <div key={topic}>
-                    <h2>{topic}</h2>
-                    <ul>
-                        {topicMessages.map(message => (
-                            <Message
-                                key={message._id}
-                                ident={message._id}
-                                author={message.author}
-                                content={message.content}
-                                date={message.date}
-                                replies={message.repliesID}
-                                topic={message.topic}
-                                onDeleteMessage={handleDeleteMessage}
-                            />
-                        ))}
-                    </ul>
-                </div>
-            ))}
-        </div>
-    );
+    <div className='message-list'>
+        <h1>Liste des messages par topic</h1>
+        {/* Afficher le formulaire pour ajouter un nouveau message */}
+        <MessageForm onMessageSubmit={handleMessageSubmit} currentUser={currentUser} />
+        {/* Afficher les messages par topic */}
+        {rootMessages.map(message => (
+            <div key={message._id}>
+                <h2>{message.topic}</h2>
+                <ul>
+                    <li key={message._id}>
+                        <Message
+                            ident={message._id}
+                            author={message.author}
+                            content={message.content}
+                            date={message.date}
+                            replies={message.repliesID}
+                            topic={message.topic}
+                            onDeleteMessage={handleDeleteMessage}
+                        />
+                    </li>
+                </ul>
+            </div>
+        ))}
+    </div>
+);
+
 }
 
 export default MessageList;

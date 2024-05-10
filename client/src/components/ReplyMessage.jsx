@@ -19,7 +19,7 @@ function ReplyMessage({ messageId, currentUser }) {
             date: stringifiedDate,
             parentId: messageId, // Utiliser l'ID du message auquel on répond
         };
-    
+        console.log(replyData.parentId);
         try {
             // Requête GET pour récupérer le message parent
             const response = await axios.get(`/api/message/${replyData.parentId}`);
