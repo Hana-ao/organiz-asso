@@ -29,9 +29,14 @@ function MainPage({ history }) {
     <>
       
       {!isConnected ? (
+        
         <div className="choix">
+          <header>
           <h1>Bienvenue sur OrganizAsso ! </h1>
           <h3><div className="italic">Le site qui vous permet d'échanger avec votre asso'</div></h3>  
+          </header>
+          
+          <main>
           <div className="options">
           <p>Pour vous connecter, c'est par ici :</p>
           <Link to="/login"  >Se connecter</Link>
@@ -39,7 +44,12 @@ function MainPage({ history }) {
           <p>Et pour vous inscrire, c'est par là :</p>
           <Link to="/signin" >S'inscrire </Link>
           </div>
+          </main>
+          <footer>
+                <p>&copy; 2024 OrganizAsso. Tous droits réservés.</p>
+          </footer>
         </div>
+
       ):(
 
       

@@ -73,10 +73,13 @@ function SignIn({ history }) {
 
     return (
         <div className='signin'>
+
             <h2>Inscription</h2> 
             <form className='signin-form' onSubmit={handleSubmit}>
-                <label>Prénom</label> <label>Nom</label>
+                <label>Prénom</label> 
                 <input type="text" name="name" value={name} onChange={handleChange} className='input-signin-name'/>
+                <label>Nom</label>
+                
                 <input type="text" name="lastName" value={lastName} onChange={handleChange} className='input-signin-lastName'/>
 
                 <label>Identifiant</label>
@@ -93,6 +96,7 @@ function SignIn({ history }) {
 
                 <button type="submit">S'inscrire</button>
                 <Link to="/login" >Vous avez déjà un compte ? Identifiez vous ici </Link>
+                <Link to="mainpage">Retour à la page d'accueil</Link>
 
             </form>
         </div>

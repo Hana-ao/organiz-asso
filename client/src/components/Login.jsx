@@ -48,12 +48,12 @@ function Login({history}) {
       }
 
     return (
-        <div>
+        <div className='login'>
             <h2>Connexion</h2>
             {error && <div className="error">{error}</div>}
             <form onSubmit={handleSubmit} className="login-form">
-                <label htmlFor='login'>Identifiant:</label>
-                <br />
+                <label htmlFor='login'>Identifiant </label>
+                
                 <input
                     id='login'
                     onChange={handleChangeLogin}
@@ -61,10 +61,10 @@ function Login({history}) {
                     value={login}
                 />
 
-                <br />
+                
 
-                <label htmlFor='pass'>Mot de passe:</label>
-                <br />
+                <label htmlFor='pass'>Mot de passe</label>
+                
                 <input
                     id="pass"
                     onChange={handleChangePassword}
@@ -75,6 +75,7 @@ function Login({history}) {
                 <button type="submit">Se connecter</button>
                 <br />
                 <Link to="/signin" >Vous n'avez pas de compte ? Inscrivez vous ici</Link>
+                <Link to="mainpage">Retour à la page d'accueil</Link>
             </form>
         </div>
     );
