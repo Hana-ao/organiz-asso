@@ -4,6 +4,8 @@ import DeleteMessage from './DeleteMessage';
 import ReplyMessage from './ReplyMessage'; // Ajout du composant de réponse
 
 function Message({ ident, author, content, date, onDeleteMessage, replies }) {
+    console.log(author);
+    
     const [showReplyForm, setShowReplyForm] = useState(false); // État pour afficher/cacher le formulaire de réponse
 
     const handleToggleReplyForm = () => {
@@ -21,8 +23,8 @@ function Message({ ident, author, content, date, onDeleteMessage, replies }) {
             {/* Affichage des réponses */}
             {replies && replies.length > 0 && (
                 <ul>
-                    {replies.map((reply, index) => (
-                        <li key={index}>
+                    {replies.map(reply => (
+                        <li key={reply.id}>
                             <p>{reply.content}</p>
                             <p>Réponse de {reply.author}</p>
                         </li>
@@ -34,7 +36,7 @@ function Message({ ident, author, content, date, onDeleteMessage, replies }) {
             <button onClick={handleToggleReplyForm}>Répondre</button>
 
             {/* Affichage conditionnel du formulaire de réponse */}
-            {showReplyForm && <ReplyMessage messageId={ident} currentUser={author}vb/>}
+            {showReplyForm && <ReplyMessage messageId={ident} currentUser={author}/>}
 
             <DeleteMessage onDelete={handleDeleteMessage} messageId={ident} />
             

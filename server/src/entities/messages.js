@@ -9,19 +9,30 @@ class Messages {
     }
 
     // Fonction pour afficher un message
-    getMessage(messageId) {
-        
+    async getMessage(messageId) {
+        console.log('Fonction getMessage appelée');
+        console.log(messageId);
+    
         return new Promise((resolve, reject) => {
-            this.db.collection("messages").findOne({ _id: messageId }, (err, message) => {
+            this.db.collection("messages").findOne({_id : new ObjectId(messageId)}, (err, message) => {
                 if (err) {
                     reject(err);
                 } else {
                     resolve(message);
                 }
             });
+        })
+        .then(message => {
+            console.log('Message récupéré avec succès :', message);
+            return message;
+        })
+        .catch(error => {
+            console.error("Erreur lors de la récupération du message :", error);
+            throw new Error("Erreur lors de la récupération du message : " + error.message);
         });
     }
-
+    
+    
     // Fonction pour récupérer tous les messages
     async getAllMessages() {
         try {
@@ -32,25 +43,56 @@ class Messages {
         }
     }
     // Fonction pour créer un nouveau message
-    createMessage(messageData) {
-        console.log("createMEssae");
-        return new Promise((resolve, reject) => {
-            this.db.collection("messages").insertOne(messageData, (err, result) => {
-                if (err) {
-                    reject(err);
+    // Dans la classe Messages
+
+    async createMessage(messageData) {
+        try {
+            if (messageData.parentId) {
+                console.log(messageData.parentId);
+                // Si parentId est fourni, il s'agit d'une réponse à un message parent
+               
+             
+                    // Insérer la réponse dans la base de données
+                    const result = await this.db.collection("messages").insertOne(messageData);
+                    console.log(result);
+                    const insertedId = result.insertedId;
+                    
+                    // Mettre à jour la liste des réponses du parent avec l'ID de la nouvelle réponse
+                    await this.db.collection("messages").updateOne(
+                        { _id: new ObjectId(messageData.parentId) },
+                        { $push: { repliesID: insertedId } }
+                    );
+                    
+                    console.log("Réponse créée avec succès !");
+                
+            } else {
+                // Sinon, créez un nouveau message comme d'habitude
+                const newMessage = {
+                    author: messageData.author,
+                    content: messageData.content,
+                    date: messageData.date,
+                    parentId: null,
+                    repliesID: [],
+                    topic:  ""
+                };
+    
+                // Insérer le nouveau message dans la base de données
+                const result = await this.db.collection("messages").insertOne(newMessage);
+                const insertedId = result.insertedId;
+    
+                if (insertedId) {
+                    console.log("ID généré :", insertedId);
+                    return insertedId;
                 } else {
-                    const insertedId = result.insertedId; // Récupérer l'ID généré
-                    if (insertedId) {
-                        console.log("ID généré :", insertedId);
-                        resolve(insertedId); // Renvoyer l'ID généré
-                    } else {
-                        reject(new Error("ID généré non trouvé"));
-                    }
+                    throw new Error("ID généré non trouvé");
                 }
-            });
-        });
+            }
+        } catch (error) {
+            throw new Error('Erreur lors de la création du message : ' + error.message);
+        }
     }
     
+
     // Fonction pour supprimer un message
     deleteMessage(messageId) {
         // Import de ObjectId depuis le module mongodb
@@ -134,24 +176,26 @@ class Messages {
         }
     }
 
-    async replyToMessage(messageId, replyContent, author) {
-        try {
-            await this.db.collection('messages').updateOne(
-                { _id: new ObjectId(messageId) },
-                { 
-                    $push: { 
-                        replies: { 
-                            author: author,
-                            content: replyContent, 
-                            date: new Date() 
-                        } 
-                    } 
-                }
-            );
-        } catch (error) {
-            throw new Error('Erreur lors de la réponse au message : ' + error.message);
-        }
+    // Dans la classe Messages
+
+async replyToMessage(messageId, replyContent, author, parentId) {
+    try {
+        const reply = {
+            author: author,
+            content: replyContent,
+            date: new Date(),
+            parentId: parentId // Ajouter le parentId à la réponse
+        };
+
+        await this.db.collection('messages').updateOne(
+            { _id: new ObjectId(messageId) },
+            { $push: { replies: reply } }
+        );
+    } catch (error) {
+        throw new Error('Erreur lors de la réponse au message : ' + error.message);
     }
+}
+
     
    
 

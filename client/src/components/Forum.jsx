@@ -41,6 +41,7 @@ function Forum(props) {
                 <MessageList currentUser={currentUser} /> </div>
                 <div className="search-panel">
                     {isAdmin && (<AdminPanel currentUser={currentUser} isAdmin={isAdmin} />)}
+                    
                 </div>
             </main>
             <footer>

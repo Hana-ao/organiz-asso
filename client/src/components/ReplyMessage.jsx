@@ -1,25 +1,64 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const ReplyMessage = ({ messageId, currentUser }) => {
+function ReplyMessage({ messageId, currentUser }) {
     const [replyContent, setReplyContent] = useState('');
 
-    const handleReply = async () => {
+    function handleReplyChange(event) {
+        setReplyContent(event.target.value);
+    }
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const currentDate = new Date();
+        const stringifiedDate = `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()} à ${currentDate.getHours()}:${currentDate.getMinutes()}`;
+    
+        const replyData = {
+            author: currentUser,
+            content: replyContent,
+            date: stringifiedDate,
+            parentId: messageId, // Utiliser l'ID du message auquel on répond
+        };
+    
         try {
-            await axios.post(`/api/messages/${messageId}/reply`, { content: replyContent, author: currentUser });
-            // Gérer la réussite de la réponse si nécessaire
-            setReplyContent(''); // Effacer le champ de réponse après avoir envoyé la réponse
+            // Requête GET pour récupérer le message parent
+            const response = await axios.get(`/api/message/${replyData.parentId}`);
+            const parentTopic = response.data.topic;
+            console.log('get appelé avec succes ');
+            // Définir replyData2
+            const replyData2 = {
+                author: currentUser,
+                content: replyContent,
+                date: stringifiedDate,
+                parentId: messageId,
+                topic: parentTopic, // Utiliser le sujet du message parent
+            };
+
+            // Requête POST pour créer la réponse
+            await axios.post('/api/message', replyData2);
+            console.log('Réponse créée avec succès !');
+
+            // Réinitialiser le champ du formulaire
+            setReplyContent('');
         } catch (error) {
             console.error('Erreur lors de l\'envoi de la réponse :', error);
         }
-    };
+    }
 
     return (
-        <div>
-            <textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Répondre au message..." />
-            <button onClick={handleReply}>Envoyer</button>
+        <div className='reply-form'>
+            <h3>Répondre au message</h3>
+            <form onSubmit={handleSubmit}>
+                <label>Contenu de la réponse</label>
+                <input
+                    type='text'
+                    value={replyContent}
+                    onChange={handleReplyChange}
+                />
+                <button type='submit'>Envoyer</button>
+            </form>
         </div>
     );
-};
+}
 
 export default ReplyMessage;

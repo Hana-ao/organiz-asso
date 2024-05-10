@@ -14,9 +14,9 @@ function Login({history}) {
     async function handleSubmit(event) {
 
         event.preventDefault();
-        const currentUser = { login, password };
+        const user = { login, password };
         try {
-            const response = await axios.post('/api/user/login', currentUser);
+            const response = await axios.post('/api/user/login', user);
             // Vérifier si la réponse est OK (status 200)
             if (response.status !== 200) {
                 throw new Error('Identifiant ou mot de passe incorrect');

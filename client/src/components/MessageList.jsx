@@ -38,7 +38,7 @@ function MessageList({ currentUser }) {
         <div className='message-list'>
             <h1>Liste des messages</h1>
             {/* Afficher le formulaire pour ajouter un nouveau message */}
-            <MessageForm onMessageSubmit={handleMessageSubmit} currentUser={currentUser} />
+            <MessageForm onMessageSubmit={handleMessageSubmit} currentUser={currentUser.username} />
             <ul>
                 {/* Afficher la liste des messages */}
                 {messages.map(message => (
@@ -48,6 +48,7 @@ function MessageList({ currentUser }) {
                         author={message.author}
                         content={message.content}
                         date={message.date}
+                        replies={message.replies}
                         onDeleteMessage={handleDeleteMessage} // Passer la fonction de suppression
                     />
                 ))}
@@ -55,6 +56,5 @@ function MessageList({ currentUser }) {
         </div>
     );
 }
-
 
 export default MessageList;

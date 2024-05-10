@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import '../styles/MessageForm.css';
-import { useState } from 'react';
 import axios from 'axios';
 
 function MessageForm({ onMessageSubmit, currentUser }) {
@@ -19,13 +19,11 @@ function MessageForm({ onMessageSubmit, currentUser }) {
 
         // Créer l'objet message avec les données du formulaire
         const messageData = {
-            
-            author: currentUser.username,
+            author: currentUser,
             content: messageContent,
             date: stringifiedDate,
-
         };
-
+        console.log (currentUser);
         // Appeler l'API pour créer un nouveau message
         axios.post('/api/message', messageData)
             .then(response => {

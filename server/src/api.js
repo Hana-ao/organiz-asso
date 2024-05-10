@@ -182,16 +182,39 @@ function init(db) {
     });
 
     router.post("/message", async (req, res) => {
-        
-        const message = req.body ; 
-        if (!message) {
-            res.status(400).send("Missing fields");
-        } else {
-            messages.createMessage(message)
-                .then((message) => res.status(201).send({ id: message._id}))
-                .catch((err) => res.status(500).send(err));
+        try {
+            const messageData = req.body;
+            console.log(messageData.parentId);
+            if (!messageData) {
+                return res.status(400).send("Missing fields");
+            }
+    
+            if (messageData.parentId) {
+                console.log(messageData.parentId);
+
+                
+                const replyData = {
+                    author: messageData.author,
+                    content: messageData.content,
+                    date: messageData.date,
+                    parentId: messageData.parentId,
+                    repliesID: [], // Assurez-vous d'initialiser les réponses de la réponse à un tableau vide
+                    topic: null // Utilisez le sujet du message parent
+                };
+                console.log(replyData);
+                const replyId = await messages.createMessage(replyData);
+                
+    
+                return res.status(201).send({ id: replyId });
+            } else {
+                const messageId = await messages.createMessage(messageData);
+                return res.status(201).send({ id: messageId });
+            }
+        } catch (error) {
+            return res.status(500).json({ error: error.message });
         }
     });
+    
 
     router.delete("/message/:message_id", async (req, res) => {
         try {
@@ -213,7 +236,7 @@ function init(db) {
 
         try {
             const allMessages = await messages.getAllMessages();
-      
+            console.log(allMessages);
             return res.send(allMessages);
             
         } catch (error) {
@@ -237,19 +260,21 @@ function init(db) {
             return res.status(500).json({ error: error.message });
         }
     });
-    router.post('/messages/:id/reply', async (req, res) => {
-        const messageId = req.params.id;
-        const { content, author } = req.body; // Assure-toi d'obtenir l'auteur de la requête
-    
-        try {
-            await messages.replyToMessage(messageId, content, author); // Passe l'auteur à la fonction replyToMessage
-            res.status(201).json({ message: 'Réponse envoyée avec succès' });
-        } catch (error) {
-            console.error('Erreur lors de l\'envoi de la réponse :', error);
-            res.status(500).json({ error: 'Erreur lors de l\'envoi de la réponse' });
-        }
-    });
-    
+   // Route pour répondre à un message
+
+// router.post('/messages/:id/reply', async (req, res) => {
+//     const messageId = req.params.id;
+//     const { content, author, parentId } = req.body; // Inclure le parentId dans les données de la requête
+
+//     try {
+//         await messages.replyToMessage(messageId, content, author, parentId);
+//         res.status(201).json({ message: 'Réponse envoyée avec succès' });
+//     } catch (error) {
+//         console.error('Erreur lors de l\'envoi de la réponse :', error);
+//         res.status(500).json({ error: 'Erreur lors de l\'envoi de la réponse' });
+//     }
+// });
+
     
     
 
