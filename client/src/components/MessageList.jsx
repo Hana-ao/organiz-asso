@@ -6,7 +6,7 @@ import MessageForm from './MessageForm';
 function MessageList({ currentUser }) {
     const [messages, setMessages] = useState([]);
     axios.defaults.baseURL = 'http://localhost:4000';
-
+    
     useEffect(() => {
         // Charger les messages depuis l'API lorsque le composant est monté
         axios.get('/api/messages')

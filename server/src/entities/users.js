@@ -2,7 +2,8 @@ class Users {
 
   constructor(db) {
       this.db = db;
-      
+              const { ObjectId } = require('mongodb');
+
   }
 
   // Retourne l'ID du nouvel utilisateur inséré
@@ -101,7 +102,7 @@ class Users {
 
   async revokeAdmin(userId){
     try{
-        await this.db.collection('users').updateOne({_id: userId}, { $set: { isAdmin: false}});
+        await this.db.collection('users').updateOne({_id: new ObjectID(userId)}, { $set: { isAdmin: false}});
         console.log("Droits d'administration révoqués avec succès !");
     }
     catch(error){
