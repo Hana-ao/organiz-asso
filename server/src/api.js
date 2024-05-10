@@ -183,7 +183,7 @@ function init(db) {
             return res.status(500).json({ error: error.message });
         }
     });
-
+    
     router.post("/message", async (req, res) => {
         try {
             const messageData = req.body;
@@ -202,7 +202,7 @@ function init(db) {
                     date: messageData.date,
                     parentId: messageData.parentId,
                     repliesID: [], // Assurez-vous d'initialiser les réponses de la réponse à un tableau vide
-                    topic: null // Utilisez le sujet du message parent
+                    topic: messageData.topic, // Utilisez le sujet du message parent
                 };
                 console.log(replyData);
                 const replyId = await messages.createMessage(replyData);

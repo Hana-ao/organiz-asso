@@ -47,11 +47,11 @@ class Messages {
                     const result = await this.db.collection("messages").insertOne(messageData);
                     console.log(result);
                     const insertedId = result.insertedId;
-                    
+                    const reply= await this.getMessage(insertedId);
                     // Mettre à jour la liste des réponses du parent avec l'ID de la nouvelle réponse
                     await this.db.collection("messages").updateOne(
                         { _id: new ObjectId(messageData.parentId) },
-                        { $push: { repliesID: insertedId } }
+                        { $push: { repliesID: reply } }
                     );
                     
                     console.log("Réponse créée avec succès !");
@@ -64,7 +64,7 @@ class Messages {
                     date: messageData.date,
                     parentId: null,
                     repliesID: [],
-                    topic:  ""
+                    topic: messageData.topic,
                 };
     
                 // Insérer le nouveau message dans la base de données

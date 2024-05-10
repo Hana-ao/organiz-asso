@@ -25,6 +25,7 @@ function ReplyMessage({ messageId, currentUser }) {
             const response = await axios.get(`/api/message/${replyData.parentId}`);
             const parentTopic = response.data.topic;
             console.log('get appelé avec succes ');
+            console.log(parentTopic);
             // Définir replyData2
             const replyData2 = {
                 author: currentUser,

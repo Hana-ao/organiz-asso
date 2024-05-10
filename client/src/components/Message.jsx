@@ -1,45 +1,32 @@
 import React, { useState } from 'react';
 import '../styles/Message.css';
 import DeleteMessage from './DeleteMessage';
-import ReplyMessage from './ReplyMessage'; // Ajout du composant de réponse
+import ReplyMessage from './ReplyMessage';
+import RepliesList from './RepliesList';
 
-function Message({ ident, author, content, date, onDeleteMessage, replies }) {
-    console.log(author);
-    
-    const [showReplyForm, setShowReplyForm] = useState(false); // État pour afficher/cacher le formulaire de réponse
+function Message({ ident, author, content, date, onDeleteMessage, replies, topic }) {
+    const [showReplies, setShowReplies] = useState(false);
 
-    const handleToggleReplyForm = () => {
-        setShowReplyForm(!showReplyForm); // Inverser l'état actuel
+    const handleToggleReplies = () => {
+        setShowReplies(!showReplies);
     };
 
     const handleDeleteMessage = () => {
-        onDeleteMessage(ident); // Passer l'identifiant du message à supprimer
+        onDeleteMessage(ident);
     };
 
     return (
         <li className='message-item'>
             <p>Le {date} : {author} a écrit "{content}" </p>
+            <p>Topic : {topic}</p>
 
-            {/* Affichage des réponses */}
-            {replies && replies.length > 0 && (
-                <ul>
-                    {replies.map(reply => (
-                        <li key={reply.id}>
-                            <p>{reply.content}</p>
-                            <p>Réponse de {reply.author}</p>
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <button onClick={handleToggleReplies}>Réponses</button>
 
-            {/* Bouton pour afficher/cacher le formulaire de réponse */}
-            <button onClick={handleToggleReplyForm}>Répondre</button>
+            {showReplies && <RepliesList repliesIds={replies} />} {/* Passer les réponses au composant RepliesList en utilisant la prop repliesIds */}
 
-            {/* Affichage conditionnel du formulaire de réponse */}
-            {showReplyForm && <ReplyMessage messageId={ident} currentUser={author}/>}
+            <ReplyMessage messageId={ident} currentUser={author} />
 
             <DeleteMessage onDelete={handleDeleteMessage} messageId={ident} />
-            
         </li>
     );
 }
