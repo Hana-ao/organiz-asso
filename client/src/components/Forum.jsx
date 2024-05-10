@@ -14,7 +14,6 @@ function Forum(props) {
     const isAdmin = currentUser && currentUser.isAdmin; //Si currentUser est null ou undefined, alors isAdmin sera automatiquement false sans même vérifier currentUser.isAdmin
     console.log("Verification de isAdmin : " + isAdmin);
     
-  
 
     function handleClickProfilePage() {
         history.push({

@@ -23,9 +23,10 @@ function Login({history}) {
             }
             const userData = response.data.user;
             console.log("Les données userData sont: " + JSON.stringify(userData));
+            console.log(login);
             history.push({
                 pathname: '/forum',
-                state: { currentUser : userData}
+                state: { currentUser : login}
             });
             
             window.location.reload(); //permet de recharger la page

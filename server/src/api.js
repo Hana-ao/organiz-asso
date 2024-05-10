@@ -170,8 +170,11 @@ function init(db) {
     const messages = new Messages(db);
 
     router.get("/message/:message_id", async (req, res) => {
+        console.log('getMessage');
+        const id =req.params.message_id;
+        console.log(id);
         try {
-            const message = await messages.getMessage(req.params.message_id);
+            const message = await messages.getMessage(id);
             if (!message) {
                 return res.sendStatus(404);
             }

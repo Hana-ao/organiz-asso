@@ -38,7 +38,7 @@ function MessageList({ currentUser }) {
         <div className='message-list'>
             <h1>Liste des messages</h1>
             {/* Afficher le formulaire pour ajouter un nouveau message */}
-            <MessageForm onMessageSubmit={handleMessageSubmit} currentUser={currentUser.username} />
+            <MessageForm onMessageSubmit={handleMessageSubmit} currentUser={currentUser} />
             <ul>
                 {/* Afficher la liste des messages */}
                 {messages.map(message => (

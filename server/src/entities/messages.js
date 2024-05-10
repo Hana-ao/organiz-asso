@@ -10,26 +10,17 @@ class Messages {
 
     // Fonction pour afficher un message
     async getMessage(messageId) {
-        console.log('Fonction getMessage appelée');
+        console.log('Fonction pour récupérer le message bien appelée');
         console.log(messageId);
     
-        return new Promise((resolve, reject) => {
-            this.db.collection("messages").findOne({_id : new ObjectId(messageId)}, (err, message) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(message);
-                }
-            });
-        })
-        .then(message => {
+        try {
+            const message = await this.db.collection('messages').findOne({ _id: new ObjectId(messageId) });
             console.log('Message récupéré avec succès :', message);
             return message;
-        })
-        .catch(error => {
+        } catch (error) {
             console.error("Erreur lors de la récupération du message :", error);
             throw new Error("Erreur lors de la récupération du message : " + error.message);
-        });
+        }
     }
     
     
