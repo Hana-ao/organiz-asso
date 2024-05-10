@@ -40,7 +40,7 @@ function Forum(props) {
                 <div className="message-panel">
                 <MessageList currentUser={currentUser} /> </div>
                 <div className="search-panel">
-                    {isAdmin && (<AdminPanel currentUser={currentUser} />)}
+                    {isAdmin && (<AdminPanel currentUser={currentUser} isAdmin={isAdmin} />)}
                 </div>
             </main>
             <footer>

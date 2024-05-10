@@ -5,7 +5,7 @@ import UserList from './UserList';
 import '../styles/AdminPanel.css';
 
 
-function AdminPanel({currentUser}) {
+function AdminPanel({currentUser, isAdmin}) {
 
 
     
@@ -15,7 +15,6 @@ function AdminPanel({currentUser}) {
     const [revokeAdmin, setRevokeAdmin] = useState("");
 
     
-   
 
     async function handleApproveUser(userId) {
         try {
@@ -82,16 +81,18 @@ function AdminPanel({currentUser}) {
     return (
         <div className='admin-panel'>
             {/* Contenu de votre panneau d'administration */}
-            <span><h2>Panel d'administration</h2></span>
-            {/* Ajoutez d'autres éléments et fonctionnalités ici */}
-            <AdminApprovalList usersToApprove={usersToApprove} onApprove={handleApproveUser} onReject={handleRejectUser} />
-            {grantAdmin && <p>{grantAdmin}</p>}
-            {revokeAdmin && <p>{revokeAdmin}</p>}
-            <UserList currentUser={currentUser} onGrantAdmin={handleGrantAdmin} onRevokeAdmin={handleRevokeAdmin}/>
-            
+            {isAdmin && (
+                <>
+                    <span><h2>Panel d'administration</h2></span>
+                    {/* Ajoutez d'autres éléments et fonctionnalités ici */}
+                    <AdminApprovalList usersToApprove={usersToApprove} onApprove={handleApproveUser} onReject={handleRejectUser} />
+                    {grantAdmin && <p>{grantAdmin}</p>}
+                    {revokeAdmin && <p>{revokeAdmin}</p>}
+                    <UserList currentUser={currentUser} onGrantAdmin={handleGrantAdmin} onRevokeAdmin={handleRevokeAdmin}/>
+                </>
+            )}
         </div>
     );
-    
 }
 
 export default AdminPanel;

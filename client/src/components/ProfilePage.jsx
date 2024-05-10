@@ -7,9 +7,10 @@ function ProfilePage({history, location}){
 
     function handleClick(){
         history.push({
-            pathname: "/forum"
+            pathname: "/forum",
+            state: { currentUser: currentUser }
         })
-        window.location.reload();
+        
     }
 
     return (
