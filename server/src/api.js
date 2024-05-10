@@ -62,8 +62,7 @@ function init(db) {
         }
     });
     router.post("/user/login", async (req, res) => {
-
-        console.log("fonction Login bien appelée")
+        console.log("fonction Login bien appelée");
         try {
             const { login, password } = req.body;
             if (!login || !password) {
@@ -73,25 +72,26 @@ function init(db) {
                 });
             }
     
-            // Vérifier si l'utilisateur existe déjà
-            const userExists = await users.exists(login);
-            if (!userExists) {
-                console.log("L'utilisateur n'existe pas dans la bdd");
-                return res.status(404).json({
-                    status: 404,
-                    message: "Nom d'utilisateur invalide"
+            // Vérifier si le mot de passe est correct
+            const isAuthenticated = await users.login(login, password);
+            if (!isAuthenticated) {
+                console.log("Mot de passe incorrect");
+                return res.status(401).json({
+                    status: 401,
+                    message: "Mot de passe incorrect"
                 });
             }
+    
+            // Récupérer les données de l'utilisateur
             const userData = await users.getUserDataByUsername(login);
-            console.log("Voyons si userData contient qlq chose : " + userData);
-
-            // Envoyer une réponse 200 OK si l'utilisateur existe
+    
+            // Envoyer une réponse 200 OK si l'authentification réussit
             return res.status(200).json({
                 status: 200,
-                message: "Utilisateur trouvé",
+                message: "Authentification réussie",
                 user: userData
             });
-
+    
         } catch (error) {
             return res.status(500).json({
                 status: 500,
@@ -100,7 +100,7 @@ function init(db) {
             });
         }
     });
-
+    
 
     router.route("/user/:user_id(\\d+)")
         .get(async (req, res) => {

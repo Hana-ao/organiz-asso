@@ -58,6 +58,30 @@ class Users {
           throw new Error("Erreur lors de la vérification de l'existence de l'utilisateur : " + error.message);
       }
   }
+  async login(login, password) {
+    try {
+        // Vérifier si l'utilisateur existe avec le login donné
+        const user = await this.db.collection('users').findOne({ login });
+
+        // Si aucun utilisateur n'est trouvé avec le login donné, renvoyer false
+        if (!user) {
+            console.log("Utilisateur non trouvé");
+            return false;
+        }
+
+        // Vérifier si le mot de passe correspond
+        if (user.password !== password) {
+            console.log("Mot de passe incorrect");
+            return false;
+        }
+
+        // Authentification réussie
+        console.log("Authentification réussie !");
+        return true;
+    } catch (error) {
+        throw new Error("Erreur lors de l'authentification de l'utilisateur : " + error.message);
+    }
+}
 
   // Supprime un utilisateur
   async deleteUser(userId) {

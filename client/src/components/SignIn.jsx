@@ -3,8 +3,6 @@ import '../styles/SignIn.css';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 
-
-
 function SignIn({ history }) {
     const [name, setName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -12,15 +10,29 @@ function SignIn({ history }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    
+    const [loginExists, setLoginExists] = useState(false); // State pour vérifier l'existence du login
+
     axios.defaults.baseURL = 'http://localhost:4000';
 
+    useEffect(() => {
+        // Vérifier si le login existe lorsqu'il change
+        const checkLoginExists = async () => {
+            try {
+                const response = await axios.get(`/api/users/exists?login=${login}`);
+                setLoginExists(response.data.exists);
+            } catch (error) {
+                console.error("Erreur lors de la vérification de l'existence du login :", error);
+            }
+        };
+
+        if (login) {
+            checkLoginExists();
+        }
+    }, [login]);
 
     function handleChange(e) {
-
         const { name, value } = e.target;
-
-        switch(name) {
+        switch (name) {
             case "name":
                 setName(value);
                 break;
@@ -38,13 +50,11 @@ function SignIn({ history }) {
                 break;
             case "confirmPassword":
                 setConfirmPassword(value);
-                break;  
+                break;
         }
     }
-    
 
     async function handleSubmit(event) {
-
         event.preventDefault();
 
         if (password !== confirmPassword) {
@@ -52,21 +62,16 @@ function SignIn({ history }) {
             return;
         }
 
+        if (loginExists) {
+            alert("Avertissement : Ce login est déjà utilisé, veuillez en choisir un autre.");
+            return;
+        }
+
         try {
             const user = { name, lastName, login, email, password };
-
-            console.log("User Data:", user);
-
-            // Créer une demande d'inscription
             const requestResponse = await axios.post("/api/request", user);
-            console.log("Demande d'inscription créée :", requestResponse.data);
-
             alert("Votre demande d'inscription a été soumise avec succès et est en attente de validation par un administrateur");
-
-            // Rediriger l'utilisateur vers une page de confirmation ou de connexion
-            // history.push("/login");
-        } 
-        catch (error) {
+        } catch (error) {
             console.log("Erreur lors de l'inscription", error);
         }
     }
