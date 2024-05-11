@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Message from './Message';
 import axios from 'axios';
 import MessageForm from './MessageForm'; 
+import {BrowserRouter, Link} from "react-router-dom";
+
 
 function MessageList({ currentUser }) {
     const [messages, setMessages] = useState([]);
@@ -33,6 +35,8 @@ function MessageList({ currentUser }) {
     
     return (
     <div className='message-list'>
+        <BrowserRouter forceRefresh ={true}>
+
         <h1>Liste des messages par topic</h1>
         {/* Afficher le formulaire pour ajouter un nouveau message */}
         <MessageForm onMessageSubmit={handleMessageSubmit} currentUser={currentUser} />
@@ -56,6 +60,7 @@ function MessageList({ currentUser }) {
                 </ul>
             </div>
         ))}
+    </BrowserRouter>
     </div>
 );
 

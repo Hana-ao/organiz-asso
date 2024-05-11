@@ -6,6 +6,8 @@ import User from "./User"
 function NavigationPanel({history, login, logout, isConnected, currentUser,currentPage}){
     return (
         <div className="navigation-panel">
+        <BrowserRouter forceRefresh ={true}>
+
             <nav>
                 {isConnected ? (
                     <> 
@@ -18,6 +20,7 @@ function NavigationPanel({history, login, logout, isConnected, currentUser,curre
                 )}
             </nav>
             {isConnected && currentPage === "message_page" }
+        </BrowserRouter>
         </div>
     );
 }

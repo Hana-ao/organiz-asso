@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/MessageForm.css';
 import axios from 'axios';
+import {BrowserRouter, Link} from "react-router-dom";
 
 function MessageForm({ onMessageSubmit, currentUser }) {
     const [messageContent, setMessageContent] = useState('');
@@ -41,6 +42,8 @@ function MessageForm({ onMessageSubmit, currentUser }) {
 
     return (
         <div className='message-form'>
+            <BrowserRouter forceRefresh ={true}>
+
             <form onSubmit={handleSubmit}>
                 <label>Topic </label>
                 <input
@@ -57,6 +60,7 @@ function MessageForm({ onMessageSubmit, currentUser }) {
                 
                 <button type='submit'>Envoyer</button>
             </form>
+            </BrowserRouter>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import '../styles/SignIn.css';
 import axios from 'axios';
-import { Link } from "react-router-dom";
+import { BrowserRouter, Link } from "react-router-dom";
 
 function SignIn({ history }) {
     const [name, setName] = useState("");
@@ -12,6 +12,7 @@ function SignIn({ history }) {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [loginExists, setLoginExists] = useState(false); // State pour vérifier l'existence du login
     axios.defaults.baseURL = 'http://localhost:4000';
+
 
     useEffect(() => {
         // Vérifier si le login existe lorsqu'il change
@@ -78,6 +79,7 @@ function SignIn({ history }) {
 
     return (
         <div className='signin'>
+            <BrowserRouter forceRefresh ={true}>
             <h2>Inscription</h2> 
             <form className='signin-form' onSubmit={handleSubmit}>
                 <label>Prénom</label> 
@@ -93,10 +95,11 @@ function SignIn({ history }) {
                 <input type="password" name="password" value={password} onChange={handleChange} className='input-signin-password'/>
                 <label>Confirmer le mot de passe</label>
                 <input type="password" name="confirmPassword" value={confirmPassword} onChange={handleChange} className='input-signin-confirmpassword'/>
-                <button type="submit">S'inscrire</button>
+                <button type="submit" >S'inscrire</button>
                 <Link to="/login" >Vous avez déjà un compte ? Identifiez vous ici </Link>
                 <Link to="mainpage">Retour à la page d'accueil</Link>
             </form>
+            </BrowserRouter>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import '../styles/UserList.css';
+import {BrowserRouter, Link} from "react-router-dom";
 
 function UserListItem({ user, onGrantAdmin, onRevokeAdmin }) {
     return (
@@ -35,6 +36,8 @@ function UserList({ currentUser, onGrantAdmin, onRevokeAdmin }) {
 
     return (
         <div className="user-list">
+        <BrowserRouter forceRefresh ={true}>
+
             <h2>Liste des utilisateurs inscrits</h2>
             <button onClick={toggleFold}>{folded ? "Afficher la liste" : "Cacher la liste"}</button>
             {!folded && (
@@ -49,6 +52,7 @@ function UserList({ currentUser, onGrantAdmin, onRevokeAdmin }) {
                     ))}
                 </div>
             )}
+        </BrowserRouter>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Message from './Message';
+import {BrowserRouter, Link} from "react-router-dom";
 
 function MessageUser({ currentUser }) {
     
@@ -26,6 +27,8 @@ function MessageUser({ currentUser }) {
     }
     return (
         <div>
+        <BrowserRouter forceRefresh ={true}>
+
             <h3>Vos messages</h3>
             {userMessages.map(message => (
                 <Message key={message._id} ident={message._id}
@@ -36,6 +39,7 @@ function MessageUser({ currentUser }) {
                             topic={message.topic}
                             onDeleteMessage={handleDeleteMessage} />
             ))}
+        </BrowserRouter>
         </div>
     );
 }

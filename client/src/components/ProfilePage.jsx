@@ -3,6 +3,8 @@ import axios from 'axios';
 import User from "./User";
 import '../styles/ProfilePage.css';
 import MessageUser from "./MessageUser";
+import {BrowserRouter, Link} from "react-router-dom";
+
 
 function ProfilePage({ history, location }) {
     const { currentUser } = location.state || {};
@@ -34,6 +36,8 @@ function ProfilePage({ history, location }) {
 
     return (
         <div className="profile-page-box">
+        <BrowserRouter forceRefresh ={true}>
+
             <h2>Bienvenue sur la page de profil</h2>
             <User {...currentUser} />
             <h3>Liste des utilisateurs inscrits :</h3>
@@ -59,6 +63,7 @@ function ProfilePage({ history, location }) {
             )}
             <MessageUser currentUser={currentUser} />
             <button onClick={handleClick}>Forum</button>
+        </BrowserRouter>
         </div>
     );
 }

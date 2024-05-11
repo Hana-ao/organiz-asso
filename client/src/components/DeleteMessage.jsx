@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import {BrowserRouter, Link} from "react-router-dom"
+
 
 function DeleteMessage({onDelete, messageId }) {
     const handleDelete = async () => {
@@ -20,7 +22,10 @@ function DeleteMessage({onDelete, messageId }) {
     
 
     return (
+        <BrowserRouter forceRefresh ={true}>
+
         <button onClick={handleDelete}>Supprimer</button>
+        </BrowserRouter>
     );
 }
 

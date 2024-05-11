@@ -5,6 +5,7 @@ import Logout from "./Logout";
 import '../styles/Forum.css';
 import SearchMessages from "./SearchMessages";
 import AdminPanel from './AdminPanel';
+import {BrowserRouter, Link} from "react-router-dom";
 
 
 function Forum(props) {
@@ -27,6 +28,8 @@ function Forum(props) {
     return (
         <>
             <div className="forum-container">
+            <BrowserRouter forceRefresh ={true}>
+
             <header>
                 <h1>Forum OrganizAsso</h1>
                 <SearchMessages />
@@ -46,6 +49,7 @@ function Forum(props) {
             <footer>
                 <p>&copy; 2024 OrganizAsso. Tous droits réservés.</p>
             </footer>
+            </BrowserRouter>
             </div>
             
         </>

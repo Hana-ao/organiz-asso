@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Importez Axios pour effectuer des requêtes HTTP
-import '../styles/SearchMessages.css'
+import '../styles/SearchMessages.css';
+import {BrowserRouter, Link} from "react-router-dom";
+
 
 const SearchMessages = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,6 +33,8 @@ const SearchMessages = () => {
 
   return (
     <div className="search-messages-container">
+    <BrowserRouter forceRefresh ={true}>
+
       <h2>Rechercher des messages</h2>
       <div className="search-messages-form">
         <input
@@ -70,6 +74,7 @@ const SearchMessages = () => {
           </div>
         ))}
       </div>
+      </BrowserRouter>
     </div>
   );
 };

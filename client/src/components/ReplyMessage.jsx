@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {BrowserRouter, Link} from "react-router-dom";
+
 
 function ReplyMessage({ messageId, currentUser }) {
     const [replyContent, setReplyContent] = useState('');
@@ -48,6 +50,8 @@ function ReplyMessage({ messageId, currentUser }) {
 
     return (
         <div className='reply-form'>
+        <BrowserRouter forceRefresh ={true}>
+
             <h4>Répondre au message</h4>
             <form onSubmit={handleSubmit}>
                 <label>Contenu de la réponse</label>
@@ -58,6 +62,7 @@ function ReplyMessage({ messageId, currentUser }) {
                 />
                 <button type='submit'>Envoyer</button>
             </form>
+        </BrowserRouter>
         </div>
     );
 }

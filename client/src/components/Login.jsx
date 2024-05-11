@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import axios from 'axios'; // Importer Axios
 import '../styles/Login.css';
-import {Link} from "react-router-dom"
+import {BrowserRouter, Link} from "react-router-dom"
 
 function Login({history}) {
     const [login, setLogin] = useState("");
@@ -49,6 +49,7 @@ function Login({history}) {
 
     return (
         <div className='login'>
+            <BrowserRouter forceRefresh ={true}>
             <h2>Connexion</h2>
             {error && <div className="error">{error}</div>}
             <form onSubmit={handleSubmit} className="login-form">
@@ -77,6 +78,7 @@ function Login({history}) {
                 <Link to="/signin" >Vous n'avez pas de compte ? Inscrivez vous ici</Link>
                 <Link to="mainpage">Retour à la page d'accueil</Link>
             </form>
+            </BrowserRouter>
         </div>
     );
 }

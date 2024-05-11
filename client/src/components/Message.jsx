@@ -4,6 +4,8 @@ import DeleteMessage from './DeleteMessage';
 import ReplyMessage from './ReplyMessage';
 import RepliesList from './RepliesList';
 import axios from 'axios';
+import {BrowserRouter, Link} from "react-router-dom";
+
 
 
 function Message({ ident, author, content, date, onDeleteMessage, replies, topic, currentUser }) {
@@ -33,6 +35,8 @@ function Message({ ident, author, content, date, onDeleteMessage, replies, topic
 
     return (
         <div className='message-item'>
+        <BrowserRouter forceRefresh ={true}>
+
             <p>Le {date} :<br></br> <strong>{author}</strong> a écrit "<strong>{content}</strong>" </p>
             
 
@@ -61,6 +65,7 @@ function Message({ ident, author, content, date, onDeleteMessage, replies, topic
             <ReplyMessage messageId={ident} currentUser={currentUser} />
 
             <DeleteMessage onDelete={handleDeleteMessage} messageId={ident} />
+            </BrowserRouter>
         </div>
     );
 }
