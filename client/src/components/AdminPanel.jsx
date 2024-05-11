@@ -42,6 +42,7 @@ function AdminPanel({currentUser, isAdmin}) {
     async function fetchUsersToApprove() {
         try {
             const response = await axios.get(`api/requests`);
+            
             if (Array.isArray(response.data)) {
                 setUsersToApprove(response.data);
             } else {

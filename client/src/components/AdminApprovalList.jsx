@@ -15,8 +15,8 @@ function AdminApprovalList({ usersToApprove, onApprove, onReject }) {
                             <p>Identifiant: <strong>{user.login}</strong></p>
                             
                         
-                        <button onClick={() => onApprove(user._id)}>Approuver</button>
-                        <button onClick={() => onReject(user._id)}>Rejeter</button>
+                        <button className="buttonColor" onClick={() => onApprove(user._id)}>Approuver</button>
+                        <button className="buttonColor" onClick={() => onReject(user._id)}>Rejeter</button>
                         
                     </li>
                     

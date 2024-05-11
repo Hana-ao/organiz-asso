@@ -63,7 +63,7 @@ function SignIn({ history }) {
 
         if (loginExists) {
             alert("Avertissement : Ce login est déjà utilisé, veuillez en choisir un autre.");
-            setLogin(""); // Effacer le champ de login pour que l'utilisateur puisse en choisir un autre
+            setLogin(""); // Efface le champ de login pour que l'utilisateur puisse en choisir un autre
             return;
         }
 

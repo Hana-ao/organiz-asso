@@ -48,7 +48,7 @@ function ReplyMessage({ messageId, currentUser }) {
 
     return (
         <div className='reply-form'>
-            <h3>Répondre au message</h3>
+            <h4>Répondre au message</h4>
             <form onSubmit={handleSubmit}>
                 <label>Contenu de la réponse</label>
                 <input

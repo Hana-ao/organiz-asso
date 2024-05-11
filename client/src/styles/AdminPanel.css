@@ -11,7 +11,9 @@
     margin-bottom: 15px;
     
 }
-
+button{
+    background-color: #A69F98;
+}
 span h2{
     border: 1px solid #cccccc;
     border-radius: 5px;
@@ -25,7 +27,7 @@ span h2{
 .admin-panel button {
     padding: 8px 15px;
     margin-right: 10px;
-    background-color: #b3b492;
+    background-color: #A69F98;
     border: none;
     border-radius: 5px;
     transition: background-color 0.3s ease;

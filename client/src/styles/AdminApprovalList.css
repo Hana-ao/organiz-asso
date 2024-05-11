@@ -7,6 +7,10 @@
 .admin-approval-list{
     margin-top: 20px;
 }
+
+.buttonColor{
+    background-color: #A5D09F;
+}
 .admin-approval-list h2 {
     font-size: 18px;
     margin-bottom: 10px;
@@ -35,4 +39,5 @@ p{
 
 button {
     padding: 5px 10px;
+   
 }

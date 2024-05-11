@@ -43,7 +43,7 @@ button:hover{
 
 button {
     padding: 10px 20px;
-    background-color: #b3b492;
+    background-color: #A5D09F;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -57,8 +57,11 @@ button {
 .search-panel{
     flex: 1;
     padding: 20px;
+    
 }
-
+.search-panel button {
+    background-color: #A5D09F;
+}
 .forum-container footer{
     margin-top: 20px;
     padding-top: 20px;

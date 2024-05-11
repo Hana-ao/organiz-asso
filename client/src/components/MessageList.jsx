@@ -39,7 +39,7 @@ function MessageList({ currentUser }) {
         {/* Afficher les messages par topic */}
         {rootMessages.map(message => (
             <div key={message._id}>
-                <h2>{message.topic}</h2>
+                <h2>Topic - {message.topic}</h2>
                 <ul>
                     <li key={message._id}>
                         <Message

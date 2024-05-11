@@ -9,7 +9,9 @@ import axios from 'axios';
 function Message({ ident, author, content, date, onDeleteMessage, replies, topic, currentUser }) {
     const [showReplies, setShowReplies] = useState(false);
     const [replyMessages, setReplyMessages] = useState([]);
+
     console.log(replies);
+
     const handleToggleReplies = async () => {
         setShowReplies(!showReplies);
         // Si les réponses ne sont pas encore chargées et que le composant est ouvert
@@ -18,7 +20,8 @@ function Message({ ident, author, content, date, onDeleteMessage, replies, topic
                 // Récupérez les messages correspondant aux IDs de réponses
                 const response = await axios.post('/api/messages/replies', { replyIds: replies });
                 setReplyMessages(response.data);
-            } catch (error) {
+            } 
+            catch (error) {
                 console.error('Erreur lors de la récupération des réponses :', error);
             }
         }
@@ -30,8 +33,8 @@ function Message({ ident, author, content, date, onDeleteMessage, replies, topic
 
     return (
         <div className='message-item'>
-            <p>Le {date} : {author} a écrit "{content}" </p>
-            <p>Topic : {topic}</p>
+            <p>Le {date} :<br></br> <strong>{author}</strong> a écrit "<strong>{content}</strong>" </p>
+            
 
             <button onClick={handleToggleReplies}>Réponses</button>
 

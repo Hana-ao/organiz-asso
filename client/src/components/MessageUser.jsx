@@ -3,11 +3,13 @@ import axios from 'axios';
 import Message from './Message';
 
 function MessageUser({ currentUser }) {
+    
     axios.defaults.baseURL = 'http://localhost:4000';
     const [messages, setMessages] = useState([]);
 
     const [userMessages, setUserMessages] = useState([]);
     console.log(currentUser.login);
+
     useEffect(() => {
         // Charger les messages de l'utilisateur depuis l'API
         axios.get(`/api/messages/user/${currentUser.login}`)
@@ -18,6 +20,7 @@ function MessageUser({ currentUser }) {
                 console.error('Erreur lors du chargement des messages de l\'utilisateur :', error);
             });
     }, [currentUser.id]);
+
     function handleDeleteMessage(messageId) {
         setMessages(prevMessages => prevMessages.filter(message => message._id !== messageId));
     }

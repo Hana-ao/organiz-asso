@@ -5,7 +5,6 @@ class Messages {
         this.db = db;
         const { ObjectId } = require('mongodb');
 
-        // Suite à venir avec la base de données
     }
 
     // Fonction pour afficher un message
@@ -213,7 +212,7 @@ async getUserMessages(username) {
    
 
     
-    // Autres méthodes à ajouter selon les besoins
+    
   }
   
  module.exports  = Messages;

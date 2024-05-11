@@ -11,25 +11,27 @@ h1, h3{
     margin: 25px;
     
 }
+
 .italic {
     font-style: italic;
     
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 
 }
+
 .options{
     border : 1px black solid;
     border-radius: 15px;
     
     padding : 40px;
-    background-color: beige;
+    background-color: #D9D6D3;
     margin: 20px;
 
 }
 
 .options a {
     display: block;
-    border: 1px solid white;
+    border: 1px solid #777777;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     

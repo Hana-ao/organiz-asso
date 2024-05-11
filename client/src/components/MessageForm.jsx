@@ -42,18 +42,19 @@ function MessageForm({ onMessageSubmit, currentUser }) {
     return (
         <div className='message-form'>
             <form onSubmit={handleSubmit}>
-                <label>Ajouter un nouveau message</label>
-                <input
-                    type='text'
-                    value={messageContent}
-                    onChange={handleMessageChange}
-                />
-                <label>Topic</label>
+                <label>Topic </label>
                 <input
                     type='text'
                     value={topic}
                     onChange={handleTopicChange}
                 />
+                <label>Ajouter un nouveau message </label>
+                <input
+                    type='text'
+                    value={messageContent}
+                    onChange={handleMessageChange}
+                />
+                
                 <button type='submit'>Envoyer</button>
             </form>
         </div>
