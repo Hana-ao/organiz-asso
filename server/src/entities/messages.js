@@ -96,26 +96,38 @@ class Messages {
     
 
     // Fonction pour supprimer un message
-    deleteMessage(messageId) {
-        // Import de ObjectId depuis le module mongodb
-
-        return new Promise((resolve, reject) => {
-            this.db.collection("messages").deleteOne({_id : new ObjectId(messageId)}, (err, result) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(result);
-                }
-            });
-        }).then(() => {
+    async deleteMessage(messageId) {
+        const ObjectId = require('mongodb').ObjectId;
+    
+        try {
+            // Récupérer le parentID du message
+            const message = await this.db.collection("messages").findOne({ _id: new ObjectId(messageId) });
+    
+            // Si le message a un parentID, supprimer l'ID du message de la liste des réponses du parent
+            if (message && message.parentId) {
+                await this.db.collection("messages").updateOne(
+                    { _id: new ObjectId(message.parentId) },
+                    { $pull: { repliesID: new ObjectId(messageId) } }
+                );
+            }
+    
+            // Supprimer le message de la collection messages
+            const result = await this.db.collection("messages").deleteOne({ _id: new ObjectId(messageId) });
+            if (result.deletedCount === 0) {
+                throw new Error("Le message à supprimer n'a pas été trouvé.");
+            }
+    
             console.log('La suppression du message est terminée.');
-        }).catch(error => {
+        } catch (error) {
             console.error('Une erreur s\'est produite :', error);
-        });
+        }
     }
     
-    // Dans votre classe Messages
-
+  
+    
+    
+    // Utilisation de la fonction pour supprimer un message
+    
     async searchMessages(searchTerm, startDate, endDate, author) {
         console.log('Bienvenue sur la fonction de recherche');
         try {
@@ -142,36 +154,6 @@ class Messages {
             console.log(query);
             const searchResults = await this.db.collection('messages').find(query).toArray();
     
-            return searchResults; // Renvoyer tous les résultats de la recherche
-        } catch (error) {
-            throw new Error("Erreur lors de la recherche des messages : " + error.message);
-        }
-    }async searchMessages(searchTerm, startDate, endDate, author) {
-        console.log('Bienvenue sur la fonction de recherche');
-        try {
-            let query = {};
-            
-            // Ajouter la recherche par mots-clés
-            if (searchTerm) {
-                console.log('Vous avez recherché par mot-clé');
-                query.content = { $regex: searchTerm, $options: "i" }; // Recherche insensible à la casse
-            }
-    
-            // Ajouter la recherche par intervalle de temps
-            if (startDate && endDate) {
-                console.log('Vous avez recherché par date');
-                query.creationDate = { $gte: new Date(startDate), $lte: new Date(endDate) };
-            }
-    
-            // Ajouter la recherche par auteur
-            if (author) {
-                console.log('Vous avez recherché par auteur');
-                query.owner = author;
-            }
-    
-            console.log(query);
-            const searchResults = await this.db.collection('messages').find(query).toArray();
-            console.log(searchResults);
             return searchResults; // Renvoyer tous les résultats de la recherche
         } catch (error) {
             throw new Error("Erreur lors de la recherche des messages : " + error.message);
