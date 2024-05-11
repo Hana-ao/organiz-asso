@@ -10,7 +10,6 @@ class Messages {
 
     // Fonction pour afficher un message
     async getMessage(messageId) {
-        console.log('Fonction pour récupérer le message bien appelée');
         console.log(messageId);
     
         try {
@@ -33,7 +32,6 @@ class Messages {
             
             return messages;
         } catch (error) {
-            console.error("Erreur lors de la récupération des messages :", error);
             throw new Error("Erreur lors de la récupération des messages : " + error.message);
         }
     }
@@ -57,7 +55,6 @@ class Messages {
                 console.log(messageData.parentId);
                 // Si parentId est fourni, il s'agit d'une réponse à un message parent
                
-             
                     // Insérer la réponse dans la base de données
                     const result = await this.db.collection("messages").insertOne(messageData);
                     console.log(result);

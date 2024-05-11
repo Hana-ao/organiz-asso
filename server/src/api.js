@@ -131,6 +131,8 @@ function init(db) {
         try{
             console.log("rentre dans grant-admin");
             const userId = req.params.user_id;
+            console.log(userId);
+
             await users.grantAdmin(userId);
             return res.status(200).send({message : "Droits d'administration accordés avec succès !"});
         }
@@ -144,6 +146,7 @@ function init(db) {
         try{
             console.log("rentre dans revoke-admin");
             const userId = req.params.user_id;
+            console.log(userId);
             await users.revokeAdmin(userId);
             return res.status(200).send({message: "Droits d'administration révoqués avec succès !"});
         }
@@ -172,7 +175,32 @@ function init(db) {
         }
     });
     
-
+    router.post("/user/exist", async (req, res) => {
+        try {
+            const { login } = req.body;
+            if (!login) {
+                return res.status(400).json({
+                    status: 400,
+                    message: "Requête invalide : nom d'utilisateur nécessaire"
+                });
+            }
+    
+            // Vérifier si l'utilisateur existe déjà
+            const userExists = await users.exists(login);
+    
+            // Envoyer true si l'utilisateur existe, sinon false
+            return res.status(200).json({
+                exists: userExists
+            });
+        } catch (error) {
+            return res.status(500).json({
+                status: 500,
+                message: "Erreur interne",
+                details: error.message
+            });
+        }
+    });
+    
     //-------------------------------------------------------------------------------------------------------//
 
     const messages = new Messages(db);

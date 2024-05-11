@@ -1,8 +1,9 @@
+const { ObjectId} = require('mongodb');
+
 class Users {
 
   constructor(db) {
       this.db = db;
-              const { ObjectId } = require('mongodb');
 
   }
 
@@ -42,7 +43,7 @@ class Users {
   // Retourne l'utilisateur trouvé ou null s'il n'existe pas
   async get(userId) {
       try {
-          const user = await this.db.collection('users').findOne({ _id: userId });
+          const user = await this.db.collection('users').findOne({ _id: new ObjectId(userId) });
           return user;
       } catch (error) {
           throw new Error("Erreur lors de la récupération de l'utilisateur : " + error.message);
@@ -53,6 +54,7 @@ class Users {
   async exists(login) {
       try {
           const user = await this.db.collection('users').findOne({ login });
+          console.log(user);
           return user !== null;
       } catch (error) {
           throw new Error("Erreur lors de la vérification de l'existence de l'utilisateur : " + error.message);
@@ -86,7 +88,7 @@ class Users {
   // Supprime un utilisateur
   async deleteUser(userId) {
       try {
-          const result = await this.db.collection('users').deleteOne({ _id: userId });
+          const result = await this.db.collection('users').deleteOne({ _id: new ObjectId(userId) });
           if (result.deletedCount === 0) {
               throw new Error("Utilisateur non trouvé");
           }
@@ -116,7 +118,7 @@ class Users {
   }
   async grantAdmin(userId){
     try{
-        await this.db.collection('users').updateOne({_id : userId},{ $set: { isAdmin : true}});
+        await this.db.collection('users').updateOne({_id : new ObjectId(userId)},{ $set: { isAdmin : true}});
         console.log("Droits d'administration accordés avec succès !");
     }
     catch(error){
@@ -126,7 +128,7 @@ class Users {
 
   async revokeAdmin(userId){
     try{
-        await this.db.collection('users').updateOne({_id: new ObjectID(userId)}, { $set: { isAdmin: false}});
+        await this.db.collection('users').updateOne({_id: new ObjectId(userId)}, { $set: { isAdmin: false}});
         console.log("Droits d'administration révoqués avec succès !");
     }
     catch(error){
