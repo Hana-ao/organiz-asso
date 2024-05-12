@@ -25,13 +25,13 @@ function init(db) {
 
     const users = new Users(db); //création d'une instance de la classe Users + connexion à la bd
 
-    console.log('user check');
+    
 
     router.post("/user/register", async (req, res) => {
-        console.log('bien rentré dans post');
+        
         try {
             const { name, lastName, login, email, password } = req.body;
-            console.log('tout est bien recupéré');
+            
 
             if (!name || !lastName || !login || !email || !password) {
                 return res.status(400).json({
@@ -278,7 +278,7 @@ function init(db) {
             console.log(messageId);
             await messages.deleteMessage(messageId);
             console.log('deleeted');
-            return res.sendStatus(204);
+            return res.status(204).send({message: "Message supprimé avec succès !"});
         } catch (error) {
             return res.status(500).json({ error: error.message });
         }
@@ -351,14 +351,14 @@ function init(db) {
 
 
     router.post("/request", async (req, res) => {
-        console.log("Rentré dans post request")
+        
         try{
             const requestUser = req.body ; //on récupère les infos du user, on le cherche dans la base de données
-            //on essaie de récupèrer son id, grâce à son login ? 
-            //getUserDataBylogin(users.login); 
+            
 
             const newRequest = await requests.createRequest(requestUser); //créé une nouvelle demande d'inscription avec les données de l'utilisateur
             //Envoi d'une réponse au frontend pour indiquer que la demande a été créée avec succès
+
             //on envoi un code d'état, on utilise status. si on voulait envoyer des datas, on utilise res.send
             res.status(201).json({
                 message:"Nouvelle demande d'inscription créée avec succès",
@@ -377,16 +377,16 @@ function init(db) {
     router.delete("/request/:request_id/reject", async (req, res) => {
         try {
             await requests.deleteRequest(req.params.request_id);
-            res.sendStatus(204);
+            res.status(204).send("La demande a été rejetée avec succès");
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
     });
 
     router.post("/request/:request_id/accept", async (req, res) => {
-        console.log("Rentré dans la route de request accept");
+        
         try {
-            console.log("Rentré dans le try de request accept");
+            
             const newUserCreatedID = await requests.acceptRequest(req.params.request_id);
             
             res.status(201).json({

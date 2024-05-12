@@ -1,0 +1,63 @@
+[{
+  "_id": {
+    "$oid": "663fadad720a8fde82bb2fcc"
+  },
+  "author": "testAdmin",
+  "content": "Bonjour à tous !",
+  "date": "2024-5-11 à 19:39",
+  "parentId": null,
+  "repliesID": [
+    {
+      "$oid": "663fc1174cebf00ceebfd2ad"
+    }
+  ],
+  "topic": "TopicDeTest1"
+},
+{
+  "_id": {
+    "$oid": "663faf9e898acefd2aa5f56a"
+  },
+  "author": "testAdmin",
+  "content": "Je veux afficher ce message dans la liste des messages d'admin !",
+  "date": "2024-5-11 à 19:39",
+  "parentId": null,
+  "repliesID": [],
+  "topic": "TopicDeTest1"
+},
+{
+  "_id": {
+    "$oid": "663fafa9898acefd2aa5f56b"
+  },
+  "author": "testAdmin",
+  "content": "Je veux afficher ce deuxième message dans la liste des messages d'admin !",
+  "date": "2024-5-11 à 19:39",
+  "parentId": null,
+  "repliesID": [],
+  "topic": "TopicDeTest1"
+},
+{
+  "_id": {
+    "$oid": "663fc1174cebf00ceebfd2ad"
+  },
+  "author": "pika58",
+  "content": "bonjour admin",
+  "date": "2024-5-11 à 21:3",
+  "parentId": "663fadad720a8fde82bb2fcc",
+  "repliesID": [
+    {
+      "$oid": "663fc13d4cebf00ceebfd2ae"
+    }
+  ],
+  "topic": "TopicDeTest1"
+},
+{
+  "_id": {
+    "$oid": "663fc13d4cebf00ceebfd2ae"
+  },
+  "author": "testAdmin",
+  "content": "ça va pikatchu ?",
+  "date": "2024-5-11 à 21:4",
+  "parentId": "663fc1174cebf00ceebfd2ad",
+  "repliesID": [],
+  "topic": "TopicDeTest1"
+}]

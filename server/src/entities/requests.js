@@ -33,6 +33,30 @@ class Requests {
     });
   }
 
+  async acceptRequest(request_id){
+    try{
+      
+     
+        const request = await this.db.collection('requests').findOne({_id : new ObjectId(request_id)});
+        
+        const {name, lastName, login, email, password} = request;
+        
+
+
+        const newUserCreatedID = await this.users.create(name,lastName,login,email,password); //on peut enfin créer le user
+        // newUserCreatedID contient l'ID de l'utilisateur créé
+
+        console.log("Nouvel utilisateur créé :", newUserCreatedID);
+
+        await this.deleteRequest(request_id);//une fois que le user a été créé, on supprime sa demande d'inscription de la liste
+
+        return newUserCreatedID;
+    }
+    catch{
+      throw new Error("Erreur lors de l'acceptation de l'inscription de l'utilisateur");
+    }
+  }
+
   async deleteRequest(request_id) {
     try {
         // Supprimer la demande avec l'ID spécifié de la base de données
@@ -53,30 +77,7 @@ class Requests {
 }
 
 
-  async acceptRequest(request_id){
-    try{
-      console.log("entré dans acceptRequest");
-      console.log(request_id);
-        const request = await this.db.collection('requests').findOne({_id : new ObjectId(request_id)});
-        console.log("findone fonctionne");
-        console.log(request);
-        const {name, lastName, login, email, password} = request;
-        console.log("tout va bien pour l'heure");
 
-
-        const newUserCreatedID = await this.users.create(name,lastName,login,email,password); //on peut enfin créer le user
-        // newUserCreatedID contient l'ID de l'utilisateur créé
-
-        console.log("Nouvel utilisateur créé :", newUserCreatedID);
-
-        //une fois que le user a été créé, on supprime sa demande d'inscription de la liste
-        await this.deleteRequest(request_id);
-        return newUserCreatedID;
-    }
-    catch{
-      throw new Error("Erreur lors de l'acceptation de l'inscription de l'utilisateur");
-    }
-  }
 }
 
 module.exports = Requests;

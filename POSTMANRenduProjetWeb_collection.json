@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "9b84d349-909a-42a7-b959-e2c7bc04aec5",
+		"name": "RenduProjetWeb",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34864811"
+	},
+	"item": [
+		{
+			"name": "requeteConnexionUtilisateur",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\" : \"testAdmin\",\n    \"password\" : \"n\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteRécupérationTousLesUtilisateurs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteCreationD'unMessage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"author\": \"testAdmin\",\n  \"content\": \"Je veux afficher ce deuxième message dans la liste des messages d'admin !\",\n  \"date\": \"2024-5-11 à 19:39\",\n  \"topic\": \"TopicDeTest1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"message"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteSuppressionDuMessage663faf57898acefd2aa5f569",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/message/663faf57898acefd2aa5f569",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"message",
+						"663faf57898acefd2aa5f569"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteRécupérationDeTousLesMessagesD'unUtilisateur",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/messages/user/testAdmin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"messages",
+						"user",
+						"testAdmin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteAffichageD'unMessageNuméro663fafa9898acefd2aa5f56b",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/message/663fafa9898acefd2aa5f56b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"message",
+						"663fafa9898acefd2aa5f56b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteDemandeD'inscription",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"pika1\",\n  \"lastName\": \"tchu1\",\n  \"login\": \"pikatchuLeVrai1\",\n  \"email\": \"pika1@hotmail.fr\",\n  \"password\": \"n\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/api/request",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteAcceptationDemande663fb6f2898acefd2aa5f572",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/request/663fbae84cebf00ceebfd2ab/accept",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"request",
+						"663fbae84cebf00ceebfd2ab",
+						"accept"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteRejetDemande663fb9e00c07642468c66ac5",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/request/663fb9e00c07642468c66ac5/reject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"request",
+						"663fb9e00c07642468c66ac5",
+						"reject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "requeteAccordStatutAdmin663b72a3a1cc6157120ad1ee",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/users/663b72a3a1cc6157120ad1ee/grant-admin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"users",
+						"663b72a3a1cc6157120ad1ee",
+						"grant-admin"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
