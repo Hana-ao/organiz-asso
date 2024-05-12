@@ -72,6 +72,7 @@ function SignIn({ history }) {
             const user = { name, lastName, login, email, password };
             const requestResponse = await axios.post("/api/request", user);
             alert("Votre demande d'inscription a été soumise avec succès et est en attente de validation par un administrateur");
+            
         } catch (error) {
             console.log("Erreur lors de l'inscription", error);
         }

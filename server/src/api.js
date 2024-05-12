@@ -374,14 +374,7 @@ function init(db) {
   
     
     
-    router.delete("/request/:request_id/reject", async (req, res) => {
-        try {
-            await requests.deleteRequest(req.params.request_id);
-            res.status(204).send("La demande a été rejetée avec succès");
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    });
+
 
     router.post("/request/:request_id/accept", async (req, res) => {
         
@@ -400,6 +393,15 @@ function init(db) {
         }
     });
 
+    router.delete("/request/:request_id/reject", async (req, res) => {
+        try {
+            await requests.deleteRequest(req.params.request_id);
+            res.status(204).send("La demande a été rejetée avec succès");
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    });
+    
     router.get("/requests", async (req, res) => {
         console.log("Rentré dans GET all requests")
 

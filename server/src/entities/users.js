@@ -28,7 +28,7 @@ class Users {
             console.log("Un utilisateur avec cet email existe déjà");
         }
             const result = await this.db.collection('users').insertOne(newUser);
-            console.log("dans la bdd");
+            
         return result.insertedId;
          
             

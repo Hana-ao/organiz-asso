@@ -41,9 +41,8 @@ class Requests {
         
         const {name, lastName, login, email, password} = request;
         
-
-
         const newUserCreatedID = await this.users.create(name,lastName,login,email,password); //on peut enfin créer le user
+        
         // newUserCreatedID contient l'ID de l'utilisateur créé
 
         console.log("Nouvel utilisateur créé :", newUserCreatedID);
